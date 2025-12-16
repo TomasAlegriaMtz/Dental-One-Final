@@ -1,0 +1,656 @@
+/* ------------------------------------------- */
+/* ESTILOS PARA CHECKBOXES NUEVOS */
+/* ------------------------------------------- */
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.checkbox-container input[type="checkbox"] {
+    /* Estilos base del checkbox */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.2s, border-color 0.2s;
+    position: relative;
+    top: 1px;
+}
+
+.checkbox-container input[type="checkbox"]:checked {
+    /* Estilo cuando está seleccionado */
+    background-color: var(--a-hover, blue);
+    /* Usa el color de hover que definiste */
+    border-color: var(--a-hover, blue);
+}
+
+.checkbox-container input[type="checkbox"]:checked::after {
+    /* El checkmark (palomita) */
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checkbox-container label {
+    cursor: pointer;
+}
+
+/*Body form*/
+.body-formulario {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background: rgb(240, 240, 240);
+}
+
+.progressForm {
+    display: flex;
+    flex-direction: row;
+    gap: 2em;
+    align-items: center;
+    justify-content: center;
+
+    hr {
+        width: 60px;
+    }
+}
+
+.currentForm {
+    color: blue;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+}
+
+.formulario-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* From Uiverse.io by absoluteSTrange */
+.formulario-card {
+    width: 80%;
+    height: auto;
+    background: white;
+    border-radius: 10px;
+    transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3em;
+    margin-bottom: 2em;
+}
+
+/*Diseno general del formulario*/
+.generalForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    justify-content: center;
+    align-items: center;
+}
+
+.general-label-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.lineStyle {
+    display: flex;
+    flex-direction: row;
+    gap: 0.8em;
+    margin-left: 2em;
+    margin-right: 2em;
+    justify-content: center;
+
+    input {
+        border: none;
+        appearance: none;
+        -webkit-appearance: none;
+        -ms-progress-appearance: none;
+        -moz-appearance: none;
+        background: #f2f2f2;
+        padding: 12px;
+        border-radius: 3px;
+        width: 250px;
+        outline: none;
+        font-size: 14px;
+    }
+
+    /*Primer Diseno*/
+    .custom-field {
+        position: relative;
+        font-size: 14px;
+        padding-top: 20px;
+        margin-bottom: 5px;
+    }
+
+    .custom-field .placeholder {
+        position: absolute;
+        left: 10px;
+        top: calc(50% + 10px);
+        transform: translateY(-50%);
+        color: #aaa;
+        transition:
+            top 0.3s ease,
+            font-size 0.3s ease,
+            color 0.3s ease;
+    }
+
+    .custom-field input:valid+.placeholder,
+    .custom-field input:focus+.placeholder {
+        top: 10px;
+        font-size: 12px;
+        color: #222;
+
+    }
+
+    /*Segundo Diseno*/
+    .custom-field.one input {
+        background: none;
+        border: 2px solid #ddd;
+        transition: border-color 0.3s ease;
+    }
+
+    .custom-field.one input:valid,
+    .custom-field.one input:focus {
+        border-color: var(--a-hover);
+        transition-delay: 0.1s;
+    }
+
+    .custom-field.one input+.placeholder {
+        padding: 0 5px;
+        left: 8px;
+    }
+
+    .custom-field.one input:valid+.placeholder,
+    .custom-field.one input:focus+.placeholder {
+        top: 20px;
+        background: white;
+    }
+
+
+    /*  Forzar que la etiqueta (placeholder) suba cuando es readonly */
+    .custom-field.one input[readonly]+.placeholder {
+        top: 20px;
+        /* Misma altura que tu estilo :valid */
+        font-size: 12px;
+        /* Mismo tamaño que tu estilo :valid */
+        color: #222;
+        /* Mismo color */
+        background: white;
+        /* Fondo blanco para tapar la línea del borde */
+        padding: 0 5px;
+        /* Tu padding lateral */
+        left: 8px;
+        /* Tu posición izquierda */
+    }
+
+    /* Estilizar el Input (Caja) cuando es readonly */
+    .custom-field.one input[readonly] {
+        border-color: var(--a-hover);
+        /* El color verde/azul de tu variable */
+        background: white;
+        /* IMPORTANTE: Quita el fondo gris por defecto */
+        color: #333;
+        /* Asegura que el texto se lea bien */
+        cursor: not-allowed;
+        /* Opcional: cursor de prohibido */
+    }
+
+    .custom-field.one input[type="date"],
+    .custom-field.one input[type="time"] {
+        color: transparent;
+        transition: color 0.2s ease;
+    }
+
+    .custom-field.one input[type="date"]:focus,
+    .custom-field.one input[type="date"]:valid,
+    .custom-field.one input[type="time"]:focus,
+    .custom-field.one input[type="time"]:valid {
+        color: #333;
+        /* El color normal de tu texto (negro o gris oscuro) */
+    }
+
+    .custom-field.one input[type="date"]::-webkit-calendar-picker-indicator,
+    .custom-field.one input[type="time"]::-webkit-calendar-picker-indicator {
+        filter: invert(0.5);
+        /* Ajusta esto para hacerlo gris o negro */
+        cursor: pointer;
+    }
+
+    .custom-field.one select {
+        border: none;
+        border-bottom: 2px solid #ddd;
+        border-radius: 0;
+        background-color: transparent;
+        padding: 10px 5px;
+        outline: none;
+        width: 70%;
+    }
+
+    .custom-field.one select:focus {
+        border-bottom-color: var(--color-btn, #007bff);
+        /* Tu color principal */
+    }
+
+    .custom-field.one select+.placeholder {
+        top: -20px;
+        left: 0;
+        font-size: 12px;
+        color: #555;
+        padding: 0;
+    }
+}
+
+/*Radio buttons design*/
+/* From Uiverse.io by 00Kubi */
+.radio-inputs {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    border-radius: 0.5rem;
+    background-color: #eee;
+    box-sizing: border-box;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+    padding: 0.25rem;
+    width: 400px;
+    font-size: 14px;
+}
+
+.radio-inputs .radio {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
+.radio-inputs .radio input {
+    display: none;
+}
+
+.radio-inputs .radio .name {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0.5rem 0;
+    color: rgba(51, 65, 85, 1);
+    transition: all 0.15s ease-in-out;
+}
+
+.radio-inputs .radio input:checked+.name {
+    background-color: #fff;
+    font-weight: 600;
+}
+
+/* Hover effect */
+.radio-inputs .radio:hover .name {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Animation */
+.radio-inputs .radio input:checked+.name {
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: select 0.3s ease;
+}
+
+@keyframes select {
+    0% {
+        transform: scale(0.95);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Particles */
+.radio-inputs .radio input:checked+.name::before,
+.radio-inputs .radio input:checked+.name::after {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--a-hover);
+    opacity: 0;
+    animation: particles 0.5s ease forwards;
+}
+
+.radio-inputs .radio input:checked+.name::before {
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.radio-inputs .radio input:checked+.name::after {
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@keyframes particles {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(var(--direction));
+    }
+}
+
+.radio-inputs .radio input:checked+.name::before {
+    --direction: -10px;
+}
+
+.radio-inputs .radio input:checked+.name::after {
+    --direction: 10px;
+}
+
+/*----------------------------------------Estado Civil-----------------------------------------------------*/
+/* From Uiverse.io by 00Kubi */
+.radio-inputsEC {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    border-radius: 0.5rem;
+    background-color: #eee;
+    box-sizing: border-box;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+    padding: 0.25rem;
+    width: 400px;
+    font-size: 14px;
+}
+
+.radio-inputsEC .radioEC {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
+.radio-inputsEC .radioEC input {
+    display: none;
+}
+
+.radio-inputsEC .radioEC .nameEC {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0.5rem 0;
+    color: rgba(51, 65, 85, 1);
+    transition: all 0.15s ease-in-out;
+}
+
+.radio-inputsEC .radioEC input:checked+.nameEC {
+    background-color: #fff;
+    font-weight: 600;
+}
+
+/* Hover effect */
+.radio-inputsEC .radioEC:hover .nameEC {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Animation */
+.radio-inputsEC .radioEC input:checked+.nameEC {
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: select 0.3s ease;
+}
+
+@keyframes select {
+    0% {
+        transform: scale(0.95);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Particles */
+.radio-inputsEC .radioEC input:checked+.nameEC::before,
+.radio-inputsEC .radioEC input:checked+.nameEC::after {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--a-hover);
+    opacity: 0;
+    animation: particles 0.5s ease forwards;
+}
+
+.radio-inputsEC .radioEC input:checked+.nameEC::before {
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.radio-inputsEC .radioEC input:checked+.nameEC::after {
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@keyframes particles {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(var(--direction));
+    }
+}
+
+.radio-inputsEC .radioEC input:checked+.nameEC::before {
+    --direction: -10px;
+}
+
+.radio-inputsEC .radioEC input:checked+.nameEC::after {
+    --direction: 10px;
+}
+
+/* From Uiverse.io by portseif */
+.btn {
+    align-items: center;
+    background-color: transparent;
+    color: var(--blue);
+    cursor: pointer;
+    display: flex;
+    font-family: ui-sans-serif, system-ui, -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.5;
+    text-decoration: none;
+    outline: 0;
+    border: 0;
+    padding: 1rem;
+    width: 18%;
+    margin: 0 auto;
+}
+
+.btn:before {
+    background-color: var(--a-hover);
+    content: "";
+    display: inline-block;
+    height: 2px;
+    margin-right: 10px;
+    transition: all .42s cubic-bezier(.25, .8, .25, 1);
+    width: 0;
+}
+
+.btn:hover:before {
+    background-color: var(--a-hover);
+    width: 3rem;
+}
+
+/*----------------------------------------Genero-----------------------------------------------------*/
+/* From Uiverse.io by 00Kubi */
+.radio-inputsG {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    border-radius: 0.5rem;
+    background-color: #eee;
+    box-sizing: border-box;
+    box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+    padding: 0.25rem;
+    width: 400px;
+    font-size: 14px;
+}
+
+.radio-inputsG .radioG {
+    flex: 1 1 auto;
+    text-align: center;
+}
+
+.radio-inputsG .radioG input {
+    display: none;
+}
+
+.radio-inputsG .radioG .nameG {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0.5rem 0;
+    color: rgba(51, 65, 85, 1);
+    transition: all 0.15s ease-in-out;
+}
+
+.radio-inputsG .radioG input:checked+.nameG {
+    background-color: #fff;
+    font-weight: 600;
+}
+
+/* Hover effect */
+.radio-inputsG .radioG:hover .nameG {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Animation */
+.radio-inputsG .radioG input:checked+.nameG {
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    animation: select 0.3s ease;
+}
+
+@keyframes select {
+    0% {
+        transform: scale(0.95);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Particles */
+.radio-inputsG .radioG input:checked+.nameG::before,
+.radio-inputsG .radioG input:checked+.nameG::after {
+    content: "";
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--a-hover);
+    opacity: 0;
+    animation: particles 0.5s ease forwards;
+}
+
+.radio-inputsG .radioG input:checked+.nameG::before {
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.radio-inputsG .radioG input:checked+.nameG::after {
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@keyframes particles {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(var(--direction));
+    }
+}
+
+.radio-inputsG .radioG input:checked+.nameG::before {
+    --direction: -10px;
+}
+
+.radio-inputsG .radioG input:checked+.nameG::after {
+    --direction: 10px;
+}
+
+.section-title {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--color-btn, #007bff);
+    /* Usa tu color principal */
+    margin-bottom: 15px;
+    margin-top: 5px;
+    text-align: left;
+    padding-left: 10px;
+    border-left: 3px solid var(--color-btn, #007bff);
+}

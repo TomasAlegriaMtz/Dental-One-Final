@@ -1,0 +1,193 @@
+/* ==================================== */
+/* ESTILOS GLOBALES DE LA SECCIÓN      */
+/* ==================================== */
+.nosotros {
+    /* Mantiene el padding superior */
+    padding: 40px 20px; 
+    margin: 0;
+    color: #000000;
+    /* Para centrar el contenido y tener padding lateral */
+}
+
+/* Título Principal al estilo de .seccion-titulo */
+.seccion-titulo-nosotros {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    max-width: 1000px; 
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+}
+
+/* Contenedor central que limita el ancho del contenido */
+.contenido-centrado-nosotros {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 40px; /* Espacio entre los bloques principales */
+}
+
+/* Estilo para los bloques principales (Introducción y Objetivo) */
+.bloque-nosotros {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10em;
+    padding: 20px 0;
+}
+
+.texto-nosotros h2 {
+    font-size: 2.5rem; /* Ajustado para subtítulo */
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #457b9d; /* Color de acento */
+}
+
+.texto-nosotros p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+/* Estilo para las imágenes en los bloques */
+.imageN img,
+.imageInterests img {
+    width: 100%;
+    max-width: 450px; /* Máximo para la imagen principal */
+    height: auto;
+    border-radius: 12px; /* Redondeado como las tarjetas */
+    object-fit: cover;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Sombra para el estilo de tarjeta */
+}
+
+.imageN {
+    flex-shrink: 0; /* Evita que la imagen se comprima demasiado */
+    max-width: 450px;
+}
+
+/* Bloque inverso (para alternar imagen/texto) */
+.bloque-inverso {
+    flex-direction: row-reverse;
+}
+
+/* Divider con el nuevo estilo */
+.divider {
+    border: none;
+    height: 1px;
+    background-color: #e0e0e0;
+    margin: 20px 0;
+}
+
+/* ==================================== */
+/* BLOQUE DE IMÁGENES DE INTERESES (.imageInterests) - Como Tarjetas */
+/* ==================================== */
+
+.imageInterests {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    flex: 1; /* Ocupa el espacio restante en el flex del bloque-nosotros */
+}
+
+.imageInterests img {
+    /* Removido ya que se usan las tarjetas de ejemplo */
+    display: none; 
+}
+
+/* Estilo de Tarjeta para los intereses */
+.interes-tarjeta {
+    flex: 1; /* Distribuye el espacio entre las tres tarjetas */
+    background-color: #f8f8f8;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.interes-tarjeta:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tarjeta-imagen-interes {
+    height: 100px;
+    /* Uso de degradado para simular la imagen como en el ejemplo de servicios */
+    background: linear-gradient(135deg, #a8dadc, #457b9d); 
+}
+
+.interes-tarjeta:nth-child(2) .tarjeta-imagen-interes {
+    background: linear-gradient(135deg, #457b9d, #1d3557);
+}
+
+.interes-tarjeta:nth-child(3) .tarjeta-imagen-interes {
+    background: linear-gradient(135deg, #3ce639, #a8dadc);
+}
+
+.tarjeta-titulo-interes {
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 5px;
+    margin: 0;
+}
+
+
+/* ==================================== */
+/* ADAPTACIÓN MÓVIL (Max-width: 800px) */
+/* ==================================== */
+@media (max-width: 800px) {
+    
+    .seccion-titulo-nosotros {
+        font-size: 2.5rem;
+        text-align: center; /* Centrar título en móvil */
+    }
+
+    .bloque-nosotros {
+        flex-direction: column; /* Apilar elementos en móvil */
+        gap: 20px;
+        padding: 20px; /* Agregar padding interno para separar del borde */
+    }
+
+    .bloque-inverso {
+        flex-direction: column; /* Apilar también el bloque inverso */
+    }
+
+    .imageN,
+    .imageN img {
+        max-width: 100%; /* La imagen ocupa todo el ancho */
+    }
+
+    .texto-nosotros h2 {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .imageInterests {
+        flex-direction: column; /* Apilar las tarjetas de interés */
+        width: 100%;
+    }
+
+    .interes-tarjeta {
+        flex-direction: row; /* Diseño de tarjeta horizontal en móvil para aprovechar mejor el espacio */
+        height: 80px;
+    }
+    
+    .tarjeta-imagen-interes {
+        height: 100%;
+        width: 80px; /* Imagen pequeña a la izquierda */
+        flex-shrink: 0;
+    }
+
+    .tarjeta-titulo-interes {
+        padding: 0 15px;
+        display: flex;
+        align-items: center;
+        text-align: left;
+    }
+}

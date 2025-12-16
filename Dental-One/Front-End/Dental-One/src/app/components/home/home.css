@@ -1,0 +1,328 @@
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dienteInicio {
+  width: 400px;
+  height: auto;
+}
+
+.header-phrase {
+  font-size: 120px;
+  font-family: "Crimson Text", serif;
+  font-weight: 500;
+  font-style: normal;
+  margin: 1.2rem auto 1.8rem auto;
+  
+}
+
+/*divider*/
+hr {
+  border: 0.70px solid rgb(240, 240, 240);
+}
+
+.inovation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.image_inovation img {
+  width: 500px;
+  border-radius: 20px;
+}
+
+.text_inovation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 500px;
+}
+
+
+/*boton*/
+.login-nav-bar {
+  background-color: var(--color-btn);
+  color: white;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  border-radius: 50px;
+  cursor: pointer;
+  margin: 3em auto;
+  width: 25%;
+  font-size: 15px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: background-color 0.3s ease;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.login-nav-bar:hover {
+  background-color: var(--color-btn-hover);
+}
+
+
+/*Diseno del servicio*/
+.servicios {
+  max-width: 1280px;
+  /* Ancho máximo para centrar el contenido */
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  /* Fuente base */
+}
+
+/* Nota lateral/etiqueta */
+.leftNote p {
+  font-size: 14px;
+  font-weight: bold;
+  color: #6B8E23;
+  /* Color primario, como un azul destacado */
+  letter-spacing: 2px;
+  margin-top: 5em;
+  margin-bottom: 4em;
+}
+
+/* Slogan y descripción */
+.servSlogan {
+  margin-bottom: 5em;
+}
+
+.servSlogan h2 {
+  font-size: 40px;
+  font-weight: 700;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 1.5em;
+}
+
+.servSlogan p {
+  font-size: 18px;
+  color: #666;
+  line-height: 1.5;
+  max-width: 600px;
+  /* Limita el ancho del texto descriptivo */
+}
+
+.serviceCards {
+  margin-top: 3em;
+  display: flex;
+  flex-direction: row;
+  gap: 3em;
+
+  width: auto;
+}
+
+.simpleCard {
+  width: 300px;
+}
+
+.serviceName {
+  font-family: "Crimson Text", serif;
+  font-weight: bolder;
+  font-style: normal;
+}
+
+/*boton*/
+.serviciosBtn {
+  background-color: var(--color-btn);
+  color: white;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.8em;
+  padding-bottom: 0.8em;
+  border-radius: 50px;
+  cursor: pointer;
+  margin: 3em auto;
+  width: 100px;
+  font-size: 15px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: background-color 0.3s ease;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.serviciosBtn:hover {
+  background-color: var(--color-btn-hover);
+}
+
+
+/*Nosotros*/
+.nosotros {
+  margin-bottom: 5em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+}
+
+.textoNosotros p {
+  width: 500px;
+}
+
+
+/*Responsive - Tablets*/
+@media(max-width: 1279px) {
+  .inovation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  .serviceCards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Quita margin: 0 auto; de aquí, lo aplicaremos de otra manera o a .servicios */
+    /* justify-content: center; */
+    /* Esta propiedad no funciona directamente para centrar la cuadrícula entera */
+
+    /* **Cambios para centrar la cuadrícula 2x2:** */
+    max-width: 660px;
+    /* Establece un ancho máximo para 2 tarjetas de 300px + gap. (300*2 + 60 de gap) */
+    margin: 0 auto;
+    /* Centra el contenedor .serviceCards */
+    gap: 20px;
+    /* Reduce el gap para que el max-width sea más manejable */
+
+  }
+
+  .servicios {
+    max-width: 800px;
+    margin: 0 auto;
+    /* Asegura que la sección de servicios esté centrada */
+  }
+
+  .simpleCard {
+    /* Estos estilos en .simpleCard podrían anular el centrado de texto si no son necesarios */
+    /* align-items: center; */
+    /* justify-content: center; */
+    width: 300px;
+  }
+
+  .serviceInfo {
+    /* Mantengo esto si quieres que la información esté centrada dentro de la tarjeta */
+    text-align: left;
+    /* Lo he cambiado a left para que se vea como en la imagen, si quieres centrado, usa center */
+  }
+
+  .serviceName {
+    text-align: left;
+    /* Asegura que el título también se alinee como en la imagen */
+  }
+
+  .nosotros {
+    flex-direction: column;
+    gap: 2em;
+  }
+
+}
+
+@media(max-width: 799px) {
+  .inovation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    padding-left: 1em;
+  }
+
+  .serviceCards {
+    display: grid;
+    grid-template-columns: 1fr;
+    /* Quita margin: 0 auto; de aquí, lo aplicaremos de otra manera o a .servicios */
+    /* justify-content: center; */
+    /* Esta propiedad no funciona directamente para centrar la cuadrícula entera */
+
+    /* **Cambios para centrar la cuadrícula 2x2:** */
+    max-width: 320px;
+    /* Establece un ancho máximo para 2 tarjetas de 300px + gap. (300*2 + 60 de gap) */
+    margin: 0 auto;
+    /* Centra el contenedor .serviceCards */
+    gap: 20px;
+    /* Reduce el gap para que el max-width sea más manejable */
+
+  }
+
+  .servicios {
+    max-width: 800px;
+    margin: 0 auto;
+    /* Asegura que la sección de servicios esté centrada */
+  }
+
+  .simpleCard {
+    /* Estos estilos en .simpleCard podrían anular el centrado de texto si no son necesarios */
+    /* align-items: center; */
+    /* justify-content: center; */
+    width: 300px;
+  }
+
+  .serviceInfo {
+    /* Mantengo esto si quieres que la información esté centrada dentro de la tarjeta */
+    text-align: center;
+    /* Lo he cambiado a left para que se vea como en la imagen, si quieres centrado, usa center */
+  }
+
+  .serviceName {
+    text-align: center;
+    /* Asegura que el título también se alinee como en la imagen */
+  }
+
+  .nosotros {
+    flex-direction: column;
+    gap: 2em;
+  }
+
+  .servSlogan {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      width: 400px;
+      text-align: center;
+    }
+  }
+
+  .leftNote {
+    padding-left: 1em;
+  }
+
+  .image_inovation img {
+    width: 400px;
+    border-radius: 20px;
+  }
+
+  .mapaH {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .header-phrase {
+    width: 400px;
+    text-align: center;
+    font-size: 100px;
+  }
+
+}

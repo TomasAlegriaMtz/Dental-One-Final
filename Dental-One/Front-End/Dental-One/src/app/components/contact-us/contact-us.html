@@ -1,0 +1,53 @@
+<div class="body-contact-us">
+
+    <div class="contact-us-container">
+        <div class="contact-us-card">
+            <h1 class="text-center">Contáctanos</h1>
+
+            <form [formGroup]="contactoForm" (ngSubmit)="enviar()">
+
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" id="nombre" formControlName="nombre" placeholder="Ej. Juan Pérez"
+                    [class.error-border]="f['nombre'].invalid && f['nombre'].touched">
+
+                @if (f['nombre'].invalid && f['nombre'].touched) {
+                <small class="text-danger">Mínimo 3 letras.</small>
+                }
+
+                <label for="email">Correo Electrónico</label>
+                <input type="email" id="email" formControlName="email" placeholder="tucorreo@ejemplo.com"
+                    [class.error-border]="f['email'].invalid && f['email'].touched">
+
+                @if (f['email'].invalid && f['email'].touched) {
+                <small class="text-danger">Correo inválido.</small>
+                }
+
+                <label for="celular">Celular</label>
+                <input type="text" id="celular" formControlName="celular" maxlength="10" placeholder="10 dígitos"
+                    [class.error-border]="f['celular'].invalid && f['celular'].touched">
+
+                @if (f['celular'].invalid && f['celular'].touched) {
+                <small class="text-danger">Deben ser 10 números.</small>
+                }
+
+                <label for="asunto">Asunto</label>
+                <input type="text" id="asunto" formControlName="asunto"
+                    [class.error-border]="f['asunto'].invalid && f['asunto'].touched">
+
+                <label for="mensaje">Mensaje</label>
+                <textarea id="mensaje" formControlName="mensaje" rows="4"
+                    style="width: 100%; margin-bottom: 15px; padding: 10px; border-radius: 5px; border: 1px solid #ccc;"
+                    [class.error-border]="f['mensaje'].invalid && f['mensaje'].touched"></textarea>
+
+                @if (f['mensaje'].invalid && f['mensaje'].touched) {
+                <small class="text-danger">Mínimo 10 caracteres.</small>
+                }
+
+                <button type="submit" class="submit-button">Enviar Mensaje</button>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,82 @@
+<div class="body-help">
+  <section class="help-container">
+
+    <h1 class="help-title text-center">Centro de Ayuda Dental</h1>
+
+    <!-- INTRO -->
+    <div class="section-block">
+      <h4 class="section-subtitle">
+        <i class="fa-solid fa-circle-info icon-primary"></i>
+        ¿Cómo funciona nuestra clínica?
+      </h4>
+
+      <p>En nuestra clínica dental ofrecemos atención profesional para tu salud bucal:</p>
+
+      <ol>
+        <li>Elige el tipo de servicio: limpieza, ortodoncia, blanqueamiento, consulta general, etc.</li>
+        <li>Revisa los horarios disponibles.</li>
+        <li>Completa tu solicitud desde nuestra plataforma.</li>
+        <li>Recibirás un mensaje o correo con la confirmación.</li>
+      </ol>
+    </div>
+
+    <!-- FAQ -->
+    <div class="section-block">
+      <h4 class="section-subtitle">
+        <i class="fa-solid fa-question-circle icon-warning"></i>
+        Preguntas Frecuentes
+      </h4>
+
+      <div class="faq-container">
+
+        @for (faq of faqs; track $index; let i = $index) {
+            <div class="accordion-item">
+              
+              <button 
+                class="accordion-button"
+                (click)="toggleAccordion(i)">
+                {{ faq.question }}
+              </button>
+    
+              <div 
+                class="accordion-collapse"
+                [class.show]="openIndex === i">
+                <div class="accordion-body">
+                  {{ faq.answer }}
+                </div>
+              </div>
+    
+            </div>
+        }
+
+      </div>
+
+    </div>
+
+    <!-- CONTACTO -->
+    <div class="contact-section">
+      <h5 class="contact-subtitle">
+        <i class="fa-solid fa-headset icon-success"></i>
+        ¿Aún tienes dudas?
+      </h5>
+
+      <p>Estamos aquí para ayudarte. Puedes comunicarte con nosotros mediante:</p>
+
+      <ul class="contact-list">
+        <li>
+          <i class="fa-brands fa-whatsapp icon-success"></i>
+          <a href="#">WhatsApp</a>
+        </li>
+        <li>
+          <i class="fa-solid fa-envelope icon-primary"></i>
+          <a href="#">Correo electrónico</a>
+        </li>
+        <li>
+          <i class="fa-solid fa-phone icon-dark"></i>
+          <a href="#">Llámanos</a>
+        </li>
+      </ul>
+    </div>
+
+  </section>
+</div>

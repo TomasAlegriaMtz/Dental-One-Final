@@ -1,0 +1,117 @@
+@if (strapiData) {
+
+  <header>
+      <p class="header-phrase">{{strapiData.frasePrincipal}}</p>
+      <img src="dienteInicio.jpg" class="dienteInicio" alt="">
+  </header>
+
+  <hr class="divider">
+
+  <div class="inovation">
+      <div class="text_inovation">
+          <div class="text_inovation_header">
+              <h1>{{strapiData.primerSubtituloInicio}}</h1>
+              <p>{{strapiData.texto1Sub1}}</p>
+          </div>
+          <div class="kindalist">
+              <hr class="divider">
+              <p>{{strapiData.texto2Sub1}}</p>
+              <hr class="divider">
+              <p>{{strapiData.texto3Sub1}}</p>
+              <hr class="divider">
+              <p>{{strapiData.texto4Sub1}}</p>
+              <hr class="divider">
+              <p>{{strapiData.texto5Sub1}}</p>
+          </div>
+          
+          @if(!userIsLogged){
+              <div class="login-nav-bar">
+                  <a routerLink="/log-in">Iniciar Sesion</a>
+              </div>
+          }
+      </div>
+      <div class="image_inovation">
+          <img src="dentista2.jpg" alt="">
+      </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="servicios">
+      <div class="leftNote">
+          <p>Servicios</p>
+      </div>
+      <div class="servSlogan">
+          <h2>{{strapiData.fraseSubServicios}}</h2>
+          <p>{{strapiData.descSubServicios}}</p>
+      </div>
+      <hr class="divider">
+      <div class="serviceCards">
+          <section class="simpleCard">
+              <p class="serviceName">{{strapiData.tit1SubServicios}}</p>
+              <hr class="divider">
+              <p class="serviceInfo">{{strapiData.descTit1SubServicios}}</p>
+          </section>
+          <section class="simpleCard">
+              <p class="serviceName">{{strapiData.tit2SubServicios}}</p>
+              <hr class="divider">
+              <p class="serviceInfo">{{strapiData.descTit2SubServicios}}</p>
+          </section>
+          <section class="simpleCard">
+              <p class="serviceName">{{strapiData.tit3SubServicios}}</p>
+              <hr class="divider">
+              <p class="serviceInfo">{{strapiData.desTit3SubServicios}}</p>
+          </section>
+          <section class="simpleCard">
+              <p class="serviceName">{{strapiData.tit4SubServicios}}</p>
+              <hr class="divider">
+              <p class="serviceInfo">{{strapiData.descTit4SubServicios}}</p>
+          </section>
+      </div>
+      <div class="serviciosBtn">
+          <a routerLink="/services">Servicios</a>
+      </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="servicios">
+      <div class="leftNote">
+          <p>Nosotros</p>
+      </div>
+      <div class="servSlogan">
+          <h2>{{strapiData.titSubNosotros}}</h2>
+          <p>{{strapiData.fraseSubNosotros}}</p>
+      </div>
+
+      <div class="nosotros">
+          <div class="image_inovation">
+              <img src="dentista2.jpg" alt="">
+          </div>
+          <div class="textoNosotros">
+              <p>{{strapiData.descSubNosotros}}</p>
+          </div>
+      </div>
+      <div class="serviciosBtn">
+          <a routerLink="/about-us">Conócenos</a>
+      </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="servicios">
+      <div class="leftNote">
+          <p>Ubicación</p>
+      </div>
+      <div class="servSlogan">
+          <h2>{{strapiData.titSubUbicacion}}</h2>
+      </div>
+
+      <app-mapa class="mapaH"></app-mapa>
+  </div>
+
+} @else {
+  <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+      <p>Cargando información de la clínica...</p>
+  </div>
+}

@@ -1,0 +1,42 @@
+<div class="servicio-detalle-container">
+    <div class="detalle-card">
+        <div class="detalle-imagen-header">
+            </div>
+
+        <div class="detalle-contenido">
+            <h1 class="detalle-titulo">
+                {{ servicio?.nombre || 'Detalle del Servicio' }}
+            </h1>
+
+            <p class="detalle-descripcion">
+                {{ servicio?.descripcion || 'Descripción breve del servicio...' }}
+            </p>
+
+            <hr class="detalle-divider">
+
+            <div class="detalle-seccion">
+                <h2 class="seccion-subtitulo">
+                    <span class="emoji">🦷</span> Qué Incluye
+                </h2>
+                <ul class="lista-caracteristicas">
+                   
+                </ul>
+            </div>
+
+            <div class="detalle-seccion">
+                <h2 class="seccion-subtitulo">
+                    <span class="emoji">⏱️</span> Proceso Típico
+                </h2>
+                <p>
+                    
+                </p>
+            </div>
+            
+            <div class="detalle-acciones">
+                <button (click)="volver()" class="btn-volver">
+                    ← Volver a Servicios
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
