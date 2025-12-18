@@ -1,3 +1,9 @@
-google-calendar-prueba.json
-*.json
+# Ignorar dependencias (se instalan con npm install)
 node_modules/
+
+# Ignorar secretos y llaves de Google
+google-calendar-prueba.json
+
+# Ignorar carpetas de compilación de Angular
+.angular/
+dist/
