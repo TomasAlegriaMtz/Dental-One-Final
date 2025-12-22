@@ -540,3 +540,10 @@ async function googleLogIn(req, res){
         res.status(401).json({ message: "Token inválido" });
     }
 }
+
+
+
+/* Implementacion mercado pago, primero declarando las rutas que utilizara*/
+const mPagoRoutes = require('./routes/mercado_pago.router')
+app.use("/mercado-pago", mPagoRoutes)
+

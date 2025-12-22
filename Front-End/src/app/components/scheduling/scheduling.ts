@@ -5,6 +5,14 @@ import { UserService } from '../../services/user.service';
 import { HttpClient } from '@angular/common/http';
 
 import Swal from 'sweetalert2';
+import { ScheduleService } from '../../services/schedule.service';
+
+interface TreatmentOption {
+  reason: string;
+  duration: number;
+  assignDoctor: string;
+  price: number;
+}
 
 @Component({
   selector: 'app-scheduling',
@@ -17,16 +25,16 @@ import Swal from 'sweetalert2';
   styleUrl: './scheduling.css'
 })
 export class Scheduling implements OnInit {
-  
+
   // URL para guardar la cita
   private urlScheduling = 'http://localhost:3000/api/register/appointment';
 
   // Variable para almacenar las horas generadas
   availableHours: string[] = [];
-  
+
   // Reactive Form Group
   schedulForm!: FormGroup;
-  
+
   // Flag para controlar el renderizado (*ngIf)
   isFormReady = false;
 
@@ -38,23 +46,23 @@ export class Scheduling implements OnInit {
     { value: 'Completed' },
   ];
 
-  // Razones / Tratamientos
-  reasonSchedule: Array<{ reason: string, duration: number, assignDoctor: string }> = [
-    { reason: 'Limpieza Dental y Revisión General', duration: 45, assignDoctor: 'Dra. Elena Sonrisa' },
-    { reason: 'Resina (Empaste por caries)', duration: 60, assignDoctor: 'Dr. Roberto Molar' },
-    { reason: 'Ajuste de Brackets (Ortodoncia)', duration: 20, assignDoctor: 'Dra. Sofía Frenillos' },
-    { reason: 'Extracción Simple / Muela', duration: 45, assignDoctor: 'Dr. Roberto Molar' },
-    { reason: 'Blanqueamiento Dental', duration: 60, assignDoctor: 'Dra. Elena Sonrisa' },
-    { reason: 'Endodoncia (Tratamiento de conducto)', duration: 90, assignDoctor: 'Dr. Carlos Raíz' },
-    { reason: 'Valoración para Implante', duration: 30, assignDoctor: 'Dr. Javier Cirujano' },
-    { reason: 'Urgencia Dental (Dolor agudo)', duration: 30, assignDoctor: 'Dra. Elena Sonrisa' }
+  reasonSchedule: TreatmentOption[] = [
+    { reason: 'Limpieza Dental y Revisión General', duration: 45, assignDoctor: 'Dra. Elena Sonrisa', price: 600 },
+    { reason: 'Resina (Empaste por caries)', duration: 60, assignDoctor: 'Dr. Roberto Molar', price: 850 },
+    { reason: 'Ajuste de Brackets (Ortodoncia)', duration: 20, assignDoctor: 'Dra. Sofía Frenillos', price: 500 },
+    { reason: 'Extracción Simple / Muela', duration: 45, assignDoctor: 'Dr. Roberto Molar', price: 1200 },
+    { reason: 'Blanqueamiento Dental', duration: 60, assignDoctor: 'Dra. Elena Sonrisa', price: 2500 },
+    { reason: 'Endodoncia (Tratamiento de conducto)', duration: 90, assignDoctor: 'Dr. Carlos Raíz', price: 3800 },
+    { reason: 'Valoración para Implante', duration: 30, assignDoctor: 'Dr. Javier Cirujano', price: 300 },
+    { reason: 'Urgencia Dental (Dolor agudo)', duration: 30, assignDoctor: 'Dra. Elena Sonrisa', price: 500 }
   ];
 
   constructor(
     private formBuilder: FormBuilder,
     private routerSchedule: Router,
     public userService: UserService,
-    private http: HttpClient
+    private http: HttpClient,
+    private scheduleService: ScheduleService
   ) {
     // 1. Generamos las horas disponibles (08:00 - 16:00)
     this.generateTimeSlots();
@@ -82,12 +90,12 @@ export class Scheduling implements OnInit {
   // --- LÓGICA DE HORARIOS ---
   generateTimeSlots(): void {
     const startHour = 8;
-    const endHour = 16; 
+    const endHour = 16;
 
     for (let hour = startHour; hour <= endHour; hour++) {
       const hourString = hour.toString().padStart(2, '0');
       this.availableHours.push(`${hourString}:00`);
-      
+
       if (hour < endHour) {
         this.availableHours.push(`${hourString}:30`);
       }
@@ -99,7 +107,7 @@ export class Scheduling implements OnInit {
    * Recibe el usuario (Instancia de clase User) y llena el formulario.
    */
   initializeForm(user: any): void {
-    
+
     // A. PREPARAR DATOS DEL USUARIO
     // Usamos los getters de la clase User (.name, .lastname, .phone, .email)
     // El operador || '' evita que salga undefined en el input
@@ -111,21 +119,21 @@ export class Scheduling implements OnInit {
     // B. REVISAR SI VIENE DEL CALENDARIO (Pre-selección)
     let preSelectedHour = '';
     const citaStorage = localStorage.getItem('cita');
-    
+
     if (citaStorage) {
-        try {
-            const citaObj = JSON.parse(citaStorage);
-            if(citaObj.hour) {
-                // Verificamos que la hora guardada exista en nuestro array de horas
-                if(this.availableHours.includes(citaObj.hour)) {
-                    preSelectedHour = citaObj.hour;
-                }
-            }
-            // Opcional: Borrar la cita del storage para que no persista siempre
-            // localStorage.removeItem('cita'); 
-        } catch(e) {
-            console.error('Error leyendo cita del storage', e);
+      try {
+        const citaObj = JSON.parse(citaStorage);
+        if (citaObj.hour) {
+          // Verificamos que la hora guardada exista en nuestro array de horas
+          if (this.availableHours.includes(citaObj.hour)) {
+            preSelectedHour = citaObj.hour;
+          }
         }
+        // Opcional: Borrar la cita del storage para que no persista siempre
+        // localStorage.removeItem('cita'); 
+      } catch (e) {
+        console.error('Error leyendo cita del storage', e);
+      }
     }
 
     // C. CONSTRUIR EL FORMULARIO
@@ -133,13 +141,13 @@ export class Scheduling implements OnInit {
       dateTime: [new Date(), [Validators.required]],
       hour: [preSelectedHour, [Validators.required]], // Ponemos la hora pre-seleccionada si existe
       durationMinutes: [this.reasonSchedule[0].duration, [Validators.required, Validators.min(1)]],
-      
+
       // Datos del paciente (Solo lectura o pre-llenados)
       patientName: [nombreCompleto, [Validators.required, Validators.minLength(2)]],
       patientId: [patientId, []],
       contactNumber: [telefonoUsuario, [Validators.required]],
       email: [emailUsuario, [Validators.required]],
-      
+
       // Datos de la cita
       reason: [this.reasonSchedule[0].reason, [Validators.required, Validators.minLength(5)]],
       providerName: [this.reasonSchedule[0].assignDoctor, [Validators.required]],
@@ -160,73 +168,105 @@ export class Scheduling implements OnInit {
     });
   }
 
-  // --- ENVÍO DEL FORMULARIO ---
+
   submitSchedule(): void {
 
+    // Validaciones básicas del formulario
     if (this.schedulForm.invalid) {
       this.schedulForm.markAllAsTouched();
       Swal.fire({
         icon: 'error',
         title: 'Formulario Incompleto',
-        text: 'Por favor, completa todos los campos obligatorios marcados en rojo.',
-        confirmButtonColor: '#d33'
+        text: 'Por favor, completa los campos requeridos.',
       });
       return;
     }
 
     const formData = this.schedulForm.getRawValue();
 
+    const selectedTreatment = this.reasonSchedule.find(
+      item => item.reason === formData.reason
+    );
+
+    if (!selectedTreatment) {
+      Swal.fire('Error', 'El tratamiento seleccionado no es válido', 'error');
+      return;
+    }
+
     // Confirmación visual
     Swal.fire({
-      title: '¿Confirmar Cita?',
+      title: 'Confirmar y Pagar',
       html: `
       <div style="text-align: left; font-size: 15px; line-height: 1.6;">
-        <p><strong>Paciente:</strong> ${formData.patientName}</p>
-        <p><strong>Tratamiento:</strong> ${formData.reason}</p>
-        <p><strong>Especialista:</strong> ${formData.providerName}</p>
-        <hr style="margin: 10px 0; border-top: 1px dashed #ccc;">
-        <p><strong>Fecha:</strong> ${new Date(formData.dateTime).toLocaleDateString()}</p>
-        <p><strong>Hora:</strong> ${formData.hour}</p>
+        <p><strong>Tratamiento:</strong> ${selectedTreatment.reason}</p>
+        <p><strong>Especialista:</strong> ${selectedTreatment.assignDoctor}</p>
+        <p><strong>Duración:</strong> ${selectedTreatment.duration} min</p>
+        <hr>
+        <p style="font-size: 18px;"><strong>Total a pagar: $${selectedTreatment.price} MXN</strong></p>
       </div>
     `,
-      icon: 'question',
+      icon: 'info',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, agendar cita',
-      cancelButtonText: 'Cancelar'
+      confirmButtonText: `Pagar $${selectedTreatment.price}`,
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#009ee3',
     }).then((result) => {
-      if (result.isConfirmed) {
-        
-        // Enviamos al backend
-        this.http.post(this.urlScheduling, formData).subscribe({
-          next: (res: any) => {
-            console.log('Registro exitoso');
-            Swal.fire({
+
+      if (!result.isConfirmed) return;
+
+      // Loader
+      Swal.fire({
+        title: 'Procesando...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      // Crear preferencia de pago
+      this.scheduleService
+        .processPay(selectedTreatment.reason, selectedTreatment.price)
+        .subscribe({
+
+          next: (payRes: any) => {
+
+            if (!payRes.init_point) {
+              Swal.fire('Error', 'No se recibió el link de pago', 'error');
+              return;
+            }
+
+            // Guardar cita
+            this.http.post(this.urlScheduling, formData).subscribe({
+
+              next: () => {
+                Swal.fire({
                   title: "Cita Agendada",
                   text: "Tu cita ha sido registrada correctamente.",
                   icon: "success"
-            });
-            // Limpiamos la selección del calendario
-            localStorage.removeItem('cita');
-            this.routerSchedule.navigate(['/calendar']);
-          }, 
-          error: (err) => {
-            console.error('Error:', err);
-            
-            // Mensaje de error personalizado (ej: Horario ocupado)
-            let errorMsg = err.error?.msg || "Ocurrió un error inesperado al conectar con el servidor.";
+                });
 
-            Swal.fire({
-              title: "No se pudo agendar",
-              text: errorMsg,
-              icon: "warning"
+                // Limpiar storage
+                localStorage.removeItem('cita');
+
+                //Redirigir a Mercado Pago
+                window.location.href = payRes.init_point;
+              },
+
+              error: (err) => {
+                console.error(err);
+                Swal.fire('Error', 'No se pudo registrar la cita', 'error');
+              }
+
             });
+          },
+
+          error: (err) => {
+            console.error(err);
+            Swal.fire('Error', 'No se pudo conectar con el sistema de pagos', 'error');
           }
+
         });
-        
-      }
     });
   }
+
+
 
 }
