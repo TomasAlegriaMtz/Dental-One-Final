@@ -7,7 +7,7 @@ import { Observable, map } from 'rxjs';
 })
 export class Cms {
     //url de strapi
-    public readonly strapiUrl = 'http://localhost:1337';
+    public readonly strapiUrl = 'https://striking-nurture-14a7abd8eb.strapiapp.com';
     constructor(private http: HttpClient){}
 
     getInicio(): Observable<any>{

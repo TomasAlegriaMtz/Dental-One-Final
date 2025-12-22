@@ -108,3 +108,11 @@ input[type="password"] {
 .submit-button:hover {
     background-color: var(--color-btn-hover)
 }
+
+/*boton del google */
+.google-sign-up{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}

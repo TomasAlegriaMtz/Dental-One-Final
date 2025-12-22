@@ -16,7 +16,7 @@
             @if (this.userService.isLoggedIn()) {
                 
                 @if (!this.userService.userLogged()?.isAdmin) {
-                    <a routerLink="/contact-us">Mi historial</a>
+                    <a routerLink="/paciente">Mi historial</a>
                 }
 
                 <a [routerLink]="this.userService.userLogged()?.isAdmin ? '/calendar' : '/calendar'">

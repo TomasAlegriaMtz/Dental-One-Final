@@ -86,7 +86,8 @@ export class FormularioInicial {
           apep: apep,
           apem: apem,
           email: data.email
-        })
+        });
+        this.loadPatientDetails();
       },
       error: (error) => {
         if(error.status == 401){
@@ -96,6 +97,15 @@ export class FormularioInicial {
         }
       }
     });
+  }
+
+  loadPatientDetails(): void {
+    this.http.get('http://localhost:3000/api/get/patientDetails').subscribe({
+      next: (data: any)=> {
+        console.log('Patient Details: ', data);
+        this.generalForm.patchValue(data);
+      }
+    })
   }
  
   onSubmit(){

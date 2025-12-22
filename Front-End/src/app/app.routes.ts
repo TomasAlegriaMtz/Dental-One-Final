@@ -11,6 +11,7 @@ import { HistoClinica } from './components/histo-clinica/histo-clinica';
 import { Scheduling } from './components/scheduling/scheduling';
 import { ContactUs } from './components/contact-us/contact-us';
 import { Help } from './components/help/help';
+import { Paciente } from './components/paciente/paciente';
 
 //Importamos el guard
 import { authGuard } from './guards/auth.guard';
@@ -30,4 +31,5 @@ export const routes: Routes = [
     {path: 'formulario', component: FormularioInicial, canActivate: [authGuard]},
     {path: 'histo', component: HistoClinica, canActivate : [authGuard]},
     {path: 'scheduling', component: Scheduling, canActivate: [authGuard]},
+    {path: 'paciente', component: Paciente, canActivate: [authGuard]}
 ];

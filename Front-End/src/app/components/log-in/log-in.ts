@@ -150,7 +150,7 @@ export class LogIn implements AfterViewInit{
           theme: "outline",
           text: "signin_with",
           size: "large",
-          logo_alignment: "left"
+          logo_alignment: "left",
         }
       );
     }
