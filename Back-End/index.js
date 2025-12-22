@@ -21,10 +21,10 @@ const calendar = google.calendar({ version: 'v3', auth });
 
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;;
 
 // Configuración de Middleware
-app.use(cors({ origin: 'http://localhost:4200' }));
+app.use(cors());//{origin: 'https://dentalone.mx'}
 app.use(express.json());
 
 // Conexión a MongoDB
@@ -32,7 +32,7 @@ const dbURI = 'mongodb+srv://thalberto04_db_user:gKi9XhsI1E5oaO0G@dental-one.9lv
 mongoose.connect(dbURI)
     .then(() => {
         app.listen(port, () => {
-            console.log(`Server listening at http://localhost:${port}`);
+            console.log(`Server listening at ${port}`);
         });
     })
     .catch((err) => console.log('Error de conexión a MongoDB:', err));
@@ -117,20 +117,17 @@ app.post('/api/register/patientDetails', async (req, res) => {
             genero
         } = req.body;
 
-        //Verificar si el usuario existe para obtener su ID
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(404).json({ msg: 'Usuario principal no encontrado. No se pueden registrar los detalles.' });
+            return res.status(404).json({ 
+                msg: 'Usuario principal no encontrado. Debe registrarse primero.' 
+            });
         }
-
-        const existingDetails = await PatientDetails.findOne({ user: user._id });
-        if (existingDetails) {
-            return res.status(409).json({ msg: 'Este usuario ya tiene un registro de detalles de paciente asociado.' });
-        }
-        const patientDetails = new PatientDetails({
-            user: user._id,
-            email, 
+        // 2. Definir los datos a insertar o actualizar
+        const updatePayload = {
+            user: user._id, // Enlace por ID
+            email,
             nombre,
             apep,
             apem,
@@ -144,101 +141,119 @@ app.post('/api/register/patientDetails', async (req, res) => {
             peso,
             nacimiento,
             genero
-        });
+        };
 
-        await patientDetails.save();
+        // 3. Ejecutar Upsert (Update + Insert)
+        // Buscamos por el ID del usuario vinculado
+        const patientDetails = await PatientDetails.findOneAndUpdate(
+            { user: user._id }, 
+            updatePayload, 
+            { 
+                new: true,      // Retorna el documento actualizado
+                upsert: true,   // Si no existe, lo crea
+                runValidators: true // Valida contra el Schema de Mongoose
+            }
+        );
 
-        res.status(201).json({ 
-            msg: 'Detalles del paciente registrados y enlazados exitosamente.', 
-            patientDetails: patientDetails // Devuelve el documento guardado
+        // 4. Responder al cliente
+        res.status(200).json({ 
+            msg: 'Datos del paciente procesados exitosamente.', 
+            patientDetails 
         });
 
     } catch (err) {
+        console.error('Error al procesar los detalles:', err);
         
-        console.error('Error al registrar los datos del paciente:', err);
-        
+        // Manejo de errores de validación (campos obligatorios, formatos, etc)
         if (err.name === 'ValidationError') {
             const messages = Object.values(err.errors).map(val => val.message);
-            return res.status(400).json({ msg: 'Error de validación de datos', errors: messages });
+            return res.status(400).json({ msg: 'Error de validación', errors: messages });
         }
 
-        res.status(500).json({ msg: 'Error interno del servidor al registrar los Details.' });
+        res.status(500).json({ msg: 'Error interno del servidor.' });
     }
 });
 
 app.post('/api/register/histo', authMiddleware, async (req, res) => {
-    try{
+    try {
         const userId = req.user.id;
-        const{
-            salud,
-            padecimiento,
-            fiebreReumatica,
-            enfermedadesCardiovasculares,
-            mareos, 
-            diabetes,
-            hepatitis,
-            vih,
-            artritis,
-            gastritis,
-            renales,
-            anemia,
-            presionArterial,
-            sangradoAnormal,
-            moretones,
-            transfusiones,
-            tratamientosPrevios,
-            tratamientoMedicoActual,
-            tomandoMedicamento,
-            alergicoMedicamento,
-            adiccion,
-            fuma,
-            enfermedadNoMencionada,
-            embarazo, 
-            problemaHormonal
-        } = req.body;
-        const patientHisto = new MedicalHistory({
-            user: userId,
-            salud,
-            padecimiento,
-            fiebreReumatica,
-            enfermedadesCardiovasculares,
-            mareos,
-            diabetes,
-            hepatitis,
-            vih,
-            artritis,
-            gastritis,
-            renales,
-            anemia,
-            presionArterial,
-            sangradoAnormal,
-            moretones,
-            transfusiones,
-            tratamientosPrevios,
-            tratamientoMedicoActual,
-            tomandoMedicamento,
-            alergicoMedicamento,
-            adiccion,
-            fuma,
-            enfermedadNoMencionada,
-            embarazo,
-            problemaHormonal
-        });
 
-        await patientHisto.save();
-        const user = await User.findById(userId).select('-password');//todo lo del usuario menos el password
-        res.status(201).json({ 
-            msg: 'Historial clinico del paciente guardado exitosamente.', 
-            user: user
+        // 1. Verificar existencia del usuario
+        // Nota: .select('-password') es excelente práctica de seguridad
+        const user = await User.findById(userId).select('-password');
+        
+        if (!user) {
+            return res.status(404).json({ 
+                msg: 'Usuario no encontrado.' 
+            });
+        }
+
+        // 2. Ejecutar upsert
+        // Usamos { ...req.body } para capturar todos los campos médicos sin listarlos uno a uno
+        const patientHisto = await MedicalHistory.findOneAndUpdate(
+            { user: userId },
+            { user: userId, ...req.body }, 
+            {
+                new: true,
+                upsert: true,
+                runValidators: true
+            }
+        );
+
+        // 3. Respuesta exitosa
+        res.status(200).json({ 
+            msg: 'Historial clínico procesado exitosamente.', 
+            history: patientHisto // Es mejor devolver el historial que se acaba de guardar/actualizar
         });
         
-    } catch(err){
-        console.error('Error al guardar el historial clinico del paciente', err);
-        res.status(500).json({msg: 'Error interno del servidor'});
+    } catch (err) {
+        console.error('Error al guardar el historial clínico:', err);
+
+        if (err.name === 'ValidationError') {
+            return res.status(400).json({ msg: 'Datos inválidos', errors: err.errors });
+        }
+
+        res.status(500).json({ msg: 'Error interno del servidor' });
     }
 });
 
+// Obtener Detalles del Paciente
+app.get('/api/get/patientDetails', authMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.id;
 
+        // Usamos findOne porque un usuario solo tiene UN perfil de detalles
+        const patientDetails = await PatientDetails.findOne({ user: userId });
+
+        if (!patientDetails) {
+            return res.status(404).json({ msg: 'No se encontraron detalles para este usuario.' });
+        }
+
+        res.json(patientDetails);
+    } catch (err) {
+        console.error('Error al obtener datos del paciente:', err);
+        res.status(500).json({ msg: 'Error interno del servidor' });
+    }
+});
+
+// Obtener Historial Clínico
+app.get('/api/get/histo', authMiddleware, async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        // Usamos findOne para recibir el objeto directo del historial
+        const histo = await MedicalHistory.findOne({ user: userId });
+
+        if (!histo) {
+            return res.status(404).json({ msg: 'No se encontró historial clínico.' });
+        }
+
+        res.json(histo);
+    } catch (err) {
+        console.error('Error al obtener el historial clínico:', err);
+        res.status(500).json({ msg: 'Error interno del servidor' });
+    }
+});
 //Appointments -----------------------------------------------------------------------------------------------------------------
 app.post('/api/register/appointment', authMiddleware, async (req, res) => {
     try {

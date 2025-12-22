@@ -1,0 +1,39 @@
+<div class="container">
+  <header class="main-heading">
+    <h1>Mi Cuenta</h1>
+  </header>
+
+  <div class="profile-card">
+    <div class="card-header">
+      <div class="avatar-circle">
+        {{ userName?.charAt(0) }}
+      </div>
+      <h2 class="user-name">{{ userName || 'Cargando...' }}</h2>
+      <p class="user-email">{{ userEmail }}</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <nav class="card-menu">
+      <button class="menu-item" (click)="navigate()">
+        <div class="icon-label">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          <span>Mi perfil</span>
+        </div>
+        <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+
+      <button class="menu-item">
+        <div class="icon-label">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          <span>Mi historial</span>
+        </div>
+        <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </nav>
+  </div>
+</div>
