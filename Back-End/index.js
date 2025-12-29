@@ -1,13 +1,60 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const jwt = require('jsonwebtoken'); 
-const User = require('./models/users'); 
+const jwt = require('jsonwebtoken');
+const User = require('./models/users');
 const PatientDetails = require('./models/patientDetails');
 const MedicalHistory = require('./models/medicalHistory');
 const Appointment = require('./models/scheduling');
 const bcrypt = require('bcryptjs');
 const { google } = require('googleapis');
+
+//modulo para enviar mensajes por email
+const { enviarCorreoSMTP } = require('./mailer');
+
+
+const crearPlantillaHTML = (patientName, dateOnlyString, hour, providerName, reason) => {
+    return `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+        <div style="background-color: #4A90E2; padding: 20px; text-align: center; color: white;">
+            <h2 style="margin: 0;">¡Cita Confirmada!</h2>
+        </div>
+        <div style="padding: 20px; background-color: #ffffff;">
+            <p style="font-size: 16px; color: #333;">Hola <strong>${patientName}</strong>,</p>
+            <p style="color: #555;">Tu cita ha sido registrada exitosamente. A continuación te enviamos los detalles:</p>
+            
+            <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+                <tr style="background-color: #f8f9fa;">
+                    <td style="padding: 10px; border-bottom: 1px solid #eee;"><strong>📅 Fecha:</strong></td>
+                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${dateOnlyString}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #eee;"><strong>⏰ Hora:</strong></td>
+                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${hour} hrs</td>
+                </tr>
+                <tr style="background-color: #f8f9fa;">
+                    <td style="padding: 10px; border-bottom: 1px solid #eee;"><strong>👨‍⚕️ Especialista:</strong></td>
+                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${providerName}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border-bottom: 1px solid #eee;"><strong>📋 Motivo:</strong></td>
+                    <td style="padding: 10px; border-bottom: 1px solid #eee;">${reason}</td>
+                </tr>
+            </table>
+
+            <p style="font-size: 14px; color: #777;">Si necesitas reagendar o cancelar, por favor contáctanos con al menos 24 horas de anticipación.</p>
+        </div>
+        <div style="background-color: #f1f1f1; padding: 15px; text-align: center; font-size: 12px; color: #888;">
+            <p style="margin: 0;">Este es un mensaje automático, por favor no respondas a este correo.</p>
+        </div>
+    </div>
+    `;
+};
+
+
+
+
+
 
 // NOTA: Asegúrate de que la ruta './google-calendar-key.json' sea correcta 
 // relativa a donde ejecutas el servidor.
@@ -45,7 +92,7 @@ const authMiddleware = (req, res, next) => {
         return res.status(401).json({ msg: 'No autorizado, no hay token.' });
     }
     try {
-        const decoded = jwt.verify(token, jwtSecret); 
+        const decoded = jwt.verify(token, jwtSecret);
         req.user = decoded.user;
         next();
     } catch (e) {
@@ -57,7 +104,7 @@ const authMiddleware = (req, res, next) => {
 app.post('/api/register', async (req, res) => {
     try {
         const { nombre, apellidos, email, password } = req.body;
-        
+
         let user = await User.findOne({ email });
         if (user) {
             return res.status(409).json({ msg: 'El email ya está registrado.' });
@@ -74,7 +121,7 @@ app.post('/api/register', async (req, res) => {
         };
 
         jwt.sign(
-            payload, 
+            payload,
             jwtSecret,
             { expiresIn: '1h' },
             (err, token) => {
@@ -82,11 +129,11 @@ app.post('/api/register', async (req, res) => {
                     console.error('Error al firmar JWT:', err);
                     return res.status(500).json({ msg: 'Error al generar token.' });
                 }
-                
-                res.status(201).json({ 
-                    msg: 'Registro exitoso.', 
-                    token: token, 
-                    userId: user._id 
+
+                res.status(201).json({
+                    msg: 'Registro exitoso.',
+                    token: token,
+                    userId: user._id
                 });
             }
         );
@@ -120,8 +167,8 @@ app.post('/api/register/patientDetails', async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(404).json({ 
-                msg: 'Usuario principal no encontrado. Debe registrarse primero.' 
+            return res.status(404).json({
+                msg: 'Usuario principal no encontrado. Debe registrarse primero.'
             });
         }
         // 2. Definir los datos a insertar o actualizar
@@ -146,9 +193,9 @@ app.post('/api/register/patientDetails', async (req, res) => {
         // 3. Ejecutar Upsert (Update + Insert)
         // Buscamos por el ID del usuario vinculado
         const patientDetails = await PatientDetails.findOneAndUpdate(
-            { user: user._id }, 
-            updatePayload, 
-            { 
+            { user: user._id },
+            updatePayload,
+            {
                 new: true,      // Retorna el documento actualizado
                 upsert: true,   // Si no existe, lo crea
                 runValidators: true // Valida contra el Schema de Mongoose
@@ -156,14 +203,14 @@ app.post('/api/register/patientDetails', async (req, res) => {
         );
 
         // 4. Responder al cliente
-        res.status(200).json({ 
-            msg: 'Datos del paciente procesados exitosamente.', 
-            patientDetails 
+        res.status(200).json({
+            msg: 'Datos del paciente procesados exitosamente.',
+            patientDetails
         });
 
     } catch (err) {
         console.error('Error al procesar los detalles:', err);
-        
+
         // Manejo de errores de validación (campos obligatorios, formatos, etc)
         if (err.name === 'ValidationError') {
             const messages = Object.values(err.errors).map(val => val.message);
@@ -181,10 +228,10 @@ app.post('/api/register/histo', authMiddleware, async (req, res) => {
         // 1. Verificar existencia del usuario
         // Nota: .select('-password') es excelente práctica de seguridad
         const user = await User.findById(userId).select('-password');
-        
+
         if (!user) {
-            return res.status(404).json({ 
-                msg: 'Usuario no encontrado.' 
+            return res.status(404).json({
+                msg: 'Usuario no encontrado.'
             });
         }
 
@@ -192,7 +239,7 @@ app.post('/api/register/histo', authMiddleware, async (req, res) => {
         // Usamos { ...req.body } para capturar todos los campos médicos sin listarlos uno a uno
         const patientHisto = await MedicalHistory.findOneAndUpdate(
             { user: userId },
-            { user: userId, ...req.body }, 
+            { user: userId, ...req.body },
             {
                 new: true,
                 upsert: true,
@@ -201,11 +248,11 @@ app.post('/api/register/histo', authMiddleware, async (req, res) => {
         );
 
         // 3. Respuesta exitosa
-        res.status(200).json({ 
-            msg: 'Historial clínico procesado exitosamente.', 
+        res.status(200).json({
+            msg: 'Historial clínico procesado exitosamente.',
             history: patientHisto // Es mejor devolver el historial que se acaba de guardar/actualizar
         });
-        
+
     } catch (err) {
         console.error('Error al guardar el historial clínico:', err);
 
@@ -254,7 +301,13 @@ app.get('/api/get/histo', authMiddleware, async (req, res) => {
         res.status(500).json({ msg: 'Error interno del servidor' });
     }
 });
+
+
 //Appointments -----------------------------------------------------------------------------------------------------------------
+
+// =================================================================================
+// HELPER: Generador de Plantilla HTML (Pégalo fuera del app.post o arriba)
+// =================================================================================
 app.post('/api/register/appointment', authMiddleware, async (req, res) => {
     try {
         const userId = req.user.id;
@@ -286,7 +339,6 @@ app.post('/api/register/appointment', authMiddleware, async (req, res) => {
         // =================================================================================
         
         // A. Preparamos las fechas de inicio y fin de la NUEVA cita
-        // Convertimos dateTime a string YYYY-MM-DD para evitar problemas de zona horaria al combinar
         const dateOnlyString = new Date(dateTime).toISOString().split('T')[0]; 
         
         // Creamos la fecha exacta de inicio combinando fecha + hora seleccionada
@@ -315,8 +367,7 @@ app.post('/api/register/appointment', authMiddleware, async (req, res) => {
             const appStart = new Date(`${appDateStr}T${app.hour}:00`);
             const appEnd = new Date(appStart.getTime() + app.durationMinutes * 60000);
 
-            // FÓRMULA DE COLISIÓN:
-            // (NuevaEmpieza < ViejaTermina) Y (NuevaTermina > ViejaEmpieza)
+            // FÓRMULA DE COLISIÓN: (NuevaEmpieza < ViejaTermina) Y (NuevaTermina > ViejaEmpieza)
             return (newStart < appEnd && newEnd > appStart);
         });
 
@@ -326,6 +377,7 @@ app.post('/api/register/appointment', authMiddleware, async (req, res) => {
                 msg: `El especialista ${providerName} ya tiene una cita ocupada a las ${conflict.hour}. Por favor selecciona otro horario.` 
             });
         }
+        
         // =================================================================================
         // 🏁 FIN VALIDACIÓN - SI LLEGA AQUÍ, EL HORARIO ESTÁ LIBRE
         // =================================================================================
@@ -349,9 +401,31 @@ app.post('/api/register/appointment', authMiddleware, async (req, res) => {
         // 4. Guardar en MongoDB
         await newAppointment.save();
 
-        // 5. Integración Google Calendar
+        // =================================================================================
+        // 📧 5. ENVÍO DE CORREO (Integración Nodemailer)
+        // =================================================================================
+        if (email) {
+            // Generamos el HTML usando la función helper definida arriba
+            const htmlContent = crearPlantillaHTML(patientName, dateOnlyString, hour, providerName, reason);
+
+            // Intentamos enviar el correo (dentro de try/catch para no fallar todo si el mail falla)
+            try {
+                await enviarCorreoSMTP({
+                    to: "jmaurixiomartinex@gmail.com",
+                    subject: `Confirmación de Cita - ${dateOnlyString} ${hour}`,
+                    html: htmlContent
+                });
+                console.log(`📧 Correo de confirmación enviado a ${email}`);
+            } catch (mailError) {
+                console.error('❌ Error enviando correo (pero la cita se guardó):', mailError);
+            }
+        }
+
+        // =================================================================================
+        // 📅 6. Integración Google Calendar
+        // =================================================================================
         try {
-            // Reutilizamos newStart y newEnd calculados arriba
+            // Reutilizamos newStart y newEnd que calculamos en la validación
             const event = {
                 summary: `Cita: ${patientName}`,
                 description: `Motivo: ${reason}\nDoctor: ${providerName}\nNotas: ${notes || 'Ninguna'}`,
@@ -378,7 +452,7 @@ app.post('/api/register/appointment', authMiddleware, async (req, res) => {
             console.error('❌ Error creando evento en Google:', googleError);
         }
         
-        // 6. Respuesta Final Exitosa
+        // 7. Respuesta Final Exitosa
         res.status(201).json({ 
             msg: 'Cita registrada exitosamente.', 
             appointment: newAppointment 
@@ -393,13 +467,16 @@ app.post('/api/register/appointment', authMiddleware, async (req, res) => {
         res.status(500).json({ msg: 'Error interno del servidor.' });
     }
 });
-app.get('/api/user/appointment', authMiddleware, async (req,res) =>{
-    try{
+
+
+
+app.get('/api/user/appointment', authMiddleware, async (req, res) => {
+    try {
         const userId = req.user.id;
 
-        const appointments = await Appointment.find({user: userId})
+        const appointments = await Appointment.find({ user: userId })
         res.json(appointments);
-    }catch{
+    } catch {
         console.error(err.message);
         res.status(500).send('Error del servidor al obtener citas');
     }
@@ -415,7 +492,7 @@ app.get('/api/admin/appointments', authMiddleware, async (req, res) => {
 
         // 2. Traer TODAS las citas de la colección (sin filtro de usuario)
         const appointments = await Appointment.find({});
-        
+
         res.json(appointments);
     } catch (err) {
         console.error(err);
@@ -425,7 +502,7 @@ app.get('/api/admin/appointments', authMiddleware, async (req, res) => {
 //--------------------------------------------------------------------------------------------------------------------------------------
 app.get('/api/user/profile', authMiddleware, async (req, res) => {
     try {
-        const userId = req.user.id; 
+        const userId = req.user.id;
 
         const user = await User.findById(userId).select('-password');
 
@@ -473,11 +550,11 @@ app.post('/api/user/login', async (req, res) => {
 
         jwt.sign(
             payload,
-            jwtSecret, 
+            jwtSecret,
             { expiresIn: '1h' },
             (err, token) => {
                 if (err) throw err;
-                
+
                 // 5. Respondemos al Frontend
                 res.json({
                     msg: 'Inicio de sesion exitoso',
@@ -504,9 +581,9 @@ app.post('/api/login', (req, res) => {
     console.log('Token recibido. Se intentará redirigir:', req.body.token);
     googleLogIn(req, res);
 });
-async function googleLogIn(req, res){
+async function googleLogIn(req, res) {
     console.log
-    try{
+    try {
         const ticket = await client.verifyIdToken({
             idToken: req.body.token,
             audience: '305375866482-j66uhnuh0t4hjk67bb7dd2js5glqn6hg.apps.googleusercontent.com'
@@ -517,8 +594,8 @@ async function googleLogIn(req, res){
 
         const email = payloadG.email;
 
-        const user = await User.findOne({email}).select('-password');
-        if(user){
+        const user = await User.findOne({ email }).select('-password');
+        if (user) {
             const payload = {
                 user: {
                     id: user._id,
@@ -528,9 +605,9 @@ async function googleLogIn(req, res){
             jwt.sign(
                 payload,
                 jwtSecret,
-                {expiresIn: '1h'},
+                { expiresIn: '1h' },
                 (err, token) => {
-                    if(err) throw err;
+                    if (err) throw err;
                     res.json({
                         msg: 'Inicio de sesion exitoso',
                         token: token,
@@ -539,8 +616,8 @@ async function googleLogIn(req, res){
                 }
             );
         }
-        else{
-            return res.status(404).json({ 
+        else {
+            return res.status(404).json({
                 msg: 'El usuario no está registrado',
                 needRegister: true, // Una bandera útil para tu frontend
                 prefillData: {      // Datos útiles para el registro
@@ -551,7 +628,7 @@ async function googleLogIn(req, res){
             });
         }
     }
-    catch (err){
+    catch (err) {
         res.status(401).json({ message: "Token inválido" });
     }
 }
