@@ -27,7 +27,7 @@ export class LogIn implements AfterViewInit{
   loginForm!: FormGroup;
   loginFormPhone!: FormGroup;
   //para el google sign in
-  private backendUrl = 'http://localhost:3000/api/login';
+  private backendUrl = 'https://dental-one-final.onrender.com/api/login';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -137,7 +137,7 @@ export class LogIn implements AfterViewInit{
         context: "signin",
         // añadimos el callback, asegurando el contexto (this)
         callback: this.handleCredentialResponse.bind(this),
-        login_uri: "http://localhost:3000/api/login",
+        login_uri: "https://dental-one-final.onrender.com/api/login",
         auto_select: true,
         itp_support: true
       });

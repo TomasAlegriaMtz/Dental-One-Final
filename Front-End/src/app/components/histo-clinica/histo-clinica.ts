@@ -15,7 +15,7 @@ import { UserService } from '../../services/user.service'; // Asegúrate de impo
 })
 export class HistoClinica implements OnInit {
   histoForm!: FormGroup;
-  private histoURI = 'http://localhost:3000/api/register/histo';
+  private histoURI = 'https://dental-one-final.onrender.com/api/register/histo';
 
   constructor(
     private formBuilder: FormBuilder,

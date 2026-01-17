@@ -22,8 +22,8 @@ export class FormularioInicial {
   //Formulario
   generalForm!: FormGroup;
 
-  private profileUrl = 'http://localhost:3000/api/user/profile';
-  private profileDataUrl = 'http://localhost:3000/api/register/patientDetails';
+  private profileUrl = 'https://dental-one-final.onrender.com/api/user/profile';
+  private profileDataUrl = 'https://dental-one-final.onrender.com/api/register/patientDetails';
   //selectores
   escolaridades: any[] = [];
   civil : any [] = [];
@@ -100,7 +100,7 @@ export class FormularioInicial {
   }
 
   loadPatientDetails(): void {
-    this.http.get('http://localhost:3000/api/get/patientDetails').subscribe({
+    this.http.get('https://dental-one-final.onrender.com/api/get/patientDetails').subscribe({
       next: (data: any)=> {
         console.log('Patient Details: ', data);
         this.generalForm.patchValue(data);

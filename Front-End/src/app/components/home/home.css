@@ -30,7 +30,10 @@ hr {
   align-items: center;
   justify-content: space-evenly;
 }
-
+body, html {
+  overflow-x: hidden;
+  width: 100%;
+}
 .image_inovation img {
   width: 500px;
   border-radius: 20px;
@@ -181,11 +184,16 @@ hr {
 
 /*Responsive - Tablets*/
 @media(max-width: 1279px) {
+  .divider{
+    width: 100%;
+  }
+  
   .inovation {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content:center;
+    max-width: 1000px;
+    margin: 0 auto;
   }
 
   .serviceCards {
@@ -206,9 +214,23 @@ hr {
   }
 
   .servicios {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     /* Asegura que la sección de servicios esté centrada */
+  }
+
+  .servSlogan{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    h2{
+      text-align: center;
+      margin-bottom: 1em;
+    }
+    p{
+      text-align: center;
+    }
   }
 
   .simpleCard {
@@ -242,19 +264,31 @@ hr {
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
-    padding-left: 1em;
+  }
+  .image_inovation img{
+    width: 50%;
+    height: auto;
+  }
+  .text_inovation {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width:80%;
+  }
+  .text_inovation_header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .text_inovation_header p{
+    text-align: center;
   }
 
   .serviceCards {
-    display: grid;
-    grid-template-columns: 1fr;
-    /* Quita margin: 0 auto; de aquí, lo aplicaremos de otra manera o a .servicios */
-    /* justify-content: center; */
-    /* Esta propiedad no funciona directamente para centrar la cuadrícula entera */
-
-    /* **Cambios para centrar la cuadrícula 2x2:** */
-    max-width: 320px;
-    /* Establece un ancho máximo para 2 tarjetas de 300px + gap. (300*2 + 60 de gap) */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 0 auto;
     /* Centra el contenedor .serviceCards */
     gap: 20px;
@@ -298,9 +332,14 @@ hr {
     justify-content: center;
 
     p {
-      width: 400px;
+      width: 300px;
       text-align: center;
     }
+    h2{
+      width: 300px;
+      text-align: center;
+    }
+     
   }
 
   .leftNote {
@@ -308,7 +347,7 @@ hr {
   }
 
   .image_inovation img {
-    width: 400px;
+    width: 350px;
     border-radius: 20px;
   }
 
@@ -320,9 +359,14 @@ hr {
   }
 
   .header-phrase {
-    width: 400px;
+    width: 75%;
     text-align: center;
-    font-size: 100px;
+    font-size: 60px;
+  }
+
+  .textoNosotros p{
+    width: 300px;
+    text-align: center;
   }
 
 }

@@ -51,11 +51,6 @@ const crearPlantillaHTML = (patientName, dateOnlyString, hour, providerName, rea
     `;
 };
 
-
-
-
-
-
 // NOTA: Asegúrate de que la ruta './google-calendar-key.json' sea correcta 
 // relativa a donde ejecutas el servidor.
 const auth = new google.auth.GoogleAuth({

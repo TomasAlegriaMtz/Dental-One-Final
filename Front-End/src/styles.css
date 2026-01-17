@@ -108,3 +108,12 @@ body {
     font-family: 'Poppins', sans-serif;
 
 }
+
+/* En styles.css (Global) */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden; /* Corta cualquier cosa que intente salirse a la derecha */
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}

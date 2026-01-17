@@ -16,7 +16,7 @@ export class UserService {
   public isLoggedIn: WritableSignal<boolean> = signal(false);
   public userLogged: WritableSignal<User | null> = signal(null);
   
-  private loginURL = 'http://localhost:3000/api/user/login';
+  private loginURL = 'https://dental-one-final.onrender.com/api/user/login';
 
   constructor(private http : HttpClient) {
     this.users = USERS_;

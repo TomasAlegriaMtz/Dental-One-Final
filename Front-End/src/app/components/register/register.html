@@ -11,7 +11,7 @@
                     (click)="changeMode()">Teléfono</button>
             </div>
 
-            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form">
                 
                 <label for="nombre">Nombre</label>
                 <input type="text" formControlName="nombre"> 

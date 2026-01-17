@@ -39,7 +39,7 @@ export const passwordsMatchValidator: ValidatorFn = (control: AbstractControl): 
 export class Register implements OnInit {
 
   registerForm!: FormGroup;
-  private registerUrl = 'http://localhost:3000/api/register'
+  private registerUrl = 'https://dental-one-final.onrender.com/api/register'
 
   emailPressed: Boolean = true;
   phonePressed: Boolean = false;

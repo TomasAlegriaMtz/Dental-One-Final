@@ -23,8 +23,8 @@ import { Appointment } from '../models/appointment';
 export class CalendarService {
     
     // --- URLs del API ---
-    private userUrl = 'http://localhost:3000/api/user/appointment';
-    private adminUrl = 'http://localhost:3000/api/admin/appointments';
+    private userUrl = 'https://dental-one-final.onrender.com/api/user/appointment';
+    private adminUrl = 'https://dental-one-final.onrender.com/api/admin/appointments';
 
     // Valores estáticos para Calendar
     public DAYS_OF_WEEK: Array<string> = [

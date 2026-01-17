@@ -167,6 +167,9 @@
         font-size: 2rem;
         text-align: center;
     }
+    .texto-nosotros p{
+        text-align: center;
+    }
 
     .imageInterests {
         flex-direction: column; /* Apilar las tarjetas de interés */

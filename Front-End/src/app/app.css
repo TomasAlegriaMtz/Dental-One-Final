@@ -59,3 +59,7 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+body, html {
+  overflow-x: hidden;
+  width: 100%;
+}

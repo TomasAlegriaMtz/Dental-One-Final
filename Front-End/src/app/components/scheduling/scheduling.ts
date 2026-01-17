@@ -27,7 +27,7 @@ interface TreatmentOption {
 export class Scheduling implements OnInit {
 
   // URL para guardar la cita
-  private urlScheduling = 'http://localhost:3000/api/register/appointment';
+  private urlScheduling = 'https://dental-one-final.onrender.com/api/register/appointment';
 
   // Variable para almacenar las horas generadas
   availableHours: string[] = [];

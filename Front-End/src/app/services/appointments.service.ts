@@ -9,7 +9,7 @@ import { map, tap } from 'rxjs/operators'; // Importar operadores RxJS
 })
 export class AppointmentsService {
   // Tu URL del backend
-  private apiUrl = 'http://localhost:3000/api/user/appointment';
+  private apiUrl = 'https://dental-one-final.onrender.com/api/user/appointment';
 
   // La Signal que alimenta tu calendario
   public appointmentsArray: WritableSignal<Array<Appointment>> = signal([]);

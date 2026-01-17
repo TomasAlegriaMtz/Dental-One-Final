@@ -91,3 +91,27 @@
     padding: 10px 20px;
     font-size: 12px;
 }
+
+@media(max-width: 799px) {
+    .info-item{
+        visibility: hidden;
+        display: none;
+    }
+    .footer-content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .horarios{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .social{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+
+}

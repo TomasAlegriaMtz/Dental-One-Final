@@ -116,3 +116,21 @@ input[type="password"] {
     justify-content: center;
     margin-top: 15px;
 }
+
+@media(max-width: 799px) {
+    .form input{
+        width: 75%;
+    }
+    .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .form label{
+        padding-left: 15%;
+        align-self:flex-start;
+    }
+    .form button{
+        width: 75%;
+    }
+}

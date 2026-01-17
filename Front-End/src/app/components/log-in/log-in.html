@@ -11,7 +11,7 @@
                     (click)="changeMode()">Teléfono</button>
             </div>
 
-            <form [formGroup]="emailPressed ? loginForm : loginFormPhone" (ngSubmit)="logIn()">
+            <form [formGroup]="emailPressed ? loginForm : loginFormPhone" (ngSubmit)="logIn()" class="form">
 
                 @if (emailPressed) {
                     <label for="username">Email</label>

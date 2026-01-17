@@ -1,5 +1,4 @@
 @if (strapiData) {
-
   <header>
       <p class="header-phrase">{{strapiData.frasePrincipal}}</p>
       <img src="dienteInicio.jpg" class="dienteInicio" alt="">
@@ -25,7 +24,7 @@
           </div>
           
           @if(!userIsLogged){
-              <div class="login-nav-bar">
+              <div class="serviciosBtn">
                   <a routerLink="/log-in">Iniciar Sesion</a>
               </div>
           }
@@ -111,7 +110,113 @@
   </div>
 
 } @else {
-  <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-      <p>Cargando información de la clínica...</p>
+  <header>
+      <p class="header-phrase">The Only One.</p>
+      <img src="dienteInicio.jpg" class="dienteInicio" alt="">
+  </header>
+
+  <hr class="divider">
+
+  <div class="inovation">
+      <div class="text_inovation">
+          <div class="text_inovation_header">
+              <h1>Innovación</h1>
+              <p>Area turns your data into clear, vibrant visuals that show you exactly whats happening in each region.</p>
+          </div>
+          <div class="kindalist">
+              <hr class="divider">
+              <p>Spot Trends in Seconds</p>
+              <hr class="divider">
+              <p>Spot Trends in Seconds</p>
+              <hr class="divider">
+              <p>Spot Trends in Seconds</p>
+              <hr class="divider">
+              <p>Spot Trends in Seconds</p>
+          </div>
+          
+          @if(!userIsLogged){
+              <div class="serviciosBtn">
+                  <a routerLink="/log-in">Iniciar Sesion</a>
+              </div>
+          }
+      </div>
+      <div class="image_inovation">
+          <img src="dentista2.jpg" alt="">
+      </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="servicios">
+      <div class="leftNote">
+          <p>Servicios</p>
+      </div>
+      <div class="servSlogan">
+          <h2>Diseñamos tu sonrisa</h2>
+          <p>Sonrisa nueva, vida nueva! Nuestra tecnología de alta gama te ofrece una remodelacion dental rápida y sencilla.</p>
+      </div>
+      <hr class="divider">
+      <div class="serviceCards">
+          <section class="simpleCard">
+              <p class="serviceName">Implantes Dentales </p>
+              <hr class="divider">
+              <p class="serviceInfo">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Deleniti vitae repellat ipsam numquam inventore ipsa quod soluta beatae, illo nulla vel quam distinctio modi excepturi est minus ratione alias quas.</p>
+          </section>
+          <section class="simpleCard">
+              <p class="serviceName">Ortodoncia</p>
+              <hr class="divider">
+              <p class="serviceInfo">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptatem fuga eius minima. Nobis tempore vel culpa minus modi, nisi ipsum nesciunt pariatur officia, perspiciatis rem magni aliquam quasi earum! Eius.</p>
+          </section>
+          <section class="simpleCard">
+              <p class="serviceName">Endodoncia</p>
+              <hr class="divider">
+              <p class="serviceInfo">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat a eum consequatur in mollitia ullam error maiores odit vel eligendi, perferendis maxime tempora molestias, delectus quisquam natus, rem optio repellendus.</p>
+          </section>
+          <section class="simpleCard">
+              <p class="serviceName">Prótesis</p>
+              <hr class="divider">
+              <p class="serviceInfo">Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa, recusandae distinctio dicta earum, explicabo voluptatem veniam harum numquam ex impedit magnam voluptates cupiditate sed hic perferendis, itaque dolorem nulla sequi.</p>
+          </section>
+      </div>
+      <div class="serviciosBtn">
+          <a routerLink="/services">Servicios</a>
+      </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="servicios">
+      <div class="leftNote">
+          <p>Nosotros</p>
+      </div>
+      <div class="servSlogan">
+          <h2>Nuestro Equipo</h2>
+          <p>Sonrisa nueva, vida nueva! Nuestra tecnología de alta gama te ofrece una remodelacion dental rápida y sencilla</p>
+      </div>
+
+      <div class="nosotros">
+          <div class="image_inovation">
+              <img src="dentista2.jpg" alt="">
+          </div>
+          <div class="textoNosotros">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae nesciunt autem eligendi recusandae nobis qui architecto, possimus esse optio sint sed, quia neque facilis at nisi libero cupiditate! Quia, consequatur? </p>
+          </div>
+      </div>
+      <div class="serviciosBtn">
+          <a routerLink="/about-us">Conócenos</a>
+      </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="servicios">
+      <div class="leftNote">
+          <p>Ubicación</p>
+      </div>
+      <div class="servSlogan">
+          <h2>Encuentranos!!</h2>
+      </div>
+
+      <app-mapa class="mapaH"></app-mapa>
   </div>
 }
