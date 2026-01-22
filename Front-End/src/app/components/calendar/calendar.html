@@ -4,9 +4,7 @@
 
     <div class="bd-left">
         <div class="month-left">
-            <button (click)="changeMonth(false)" class="nav-button">&lt;</button>
             <h1 [innerHTML]="currentMonthCal?.monthString"></h1>
-            <button (click)="changeMonth(true)" class="nav-button">&gt;</button>
         </div>
 
         <div class="calendar-left">
@@ -16,11 +14,12 @@
 
             @for (dayObject of currentMonthCal?.daysInMonth; track $index) {
             <div [innerHTML]="dayObject.dayString" [ngClass]="{
-                    'current-days-number': dayObject.isToday,
-                    'days-number': !dayObject.isToday,
-                    'weekend-color': dayObject.isWeekend,
-                    'has-appointment': (dayObject.appointments && dayObject.appointments.length > 0)
-                 }" (click)="this.selectDay(dayObject)">
+                     'current-days-number': dayObject.isToday,
+                     'days-number': !dayObject.isToday,
+                     'weekend-color': dayObject.isWeekend,
+                     'has-appointment': (dayObject.appointments && dayObject.appointments.length > 0),
+                     'is-selected': this.calendarService.selectedDay === +dayObject.dayNumber
+                   }" (click)="this.selectDay(dayObject)">
 
                 @if (dayObject.appointments && dayObject.appointments.length > 0) {
                 <span class="appointment-dot"></span>
@@ -31,126 +30,99 @@
 
         <div class="reminders-left">
             <div class="calendar-list-container">
-
                 <div class="event-module">
                     <h2 class="module-header">
                         <span class="icon-calendar">🗓️</span>
-                        {{this.periodSelected.startDay}} - {{this.periodSelected.endDay}}
-                        {{this.currentMonthCal?.monthString}}
+                        Resumen Semanal
                     </h2>
-
                     @if (currentAppointments && currentAppointments.length === 0) {
-                    <p class="no-events">No hay citas programadas para esta semana.</p>
+                    <p class="no-events">No hay citas esta semana.</p>
                     }
                     @else if (currentAppointments) {
-
                     @for (appt of currentAppointments; track appt.dateTime) {
                     <div class="event-item">
                         <div class="event-tt">
                             <span class="dot" [ngClass]="getStatusColor(appt.status)"></span>
-                            <span class="event-name">({{ appt.reason }})</span>
+                            <span class="event-name">{{ formatFullDateTime(appt.dateTime) }}</span>
                         </div>
-                        <span class="event-time event-time-full">
-                            @if (currentUser?.isAdmin) {
-                            <strong>{{ appt.patientName }}</strong> <br>
-                            }
-                            {{ formatFullDateTime(appt.dateTime) }}
-                        </span>
                     </div>
                     }
                     }
                 </div>
-
-                @if (currentUser?.isAdmin) {
-                <div class="event-module" style="margin-top: 20px;">
-                    <h2 class="module-header">
-                        <span class="icon-calendar">📊</span> Todas las Citas
-                    </h2>
-
-                    @if (this.calendarService.appointmentsUser && this.calendarService.appointmentsUser.length === 0) {
-                    <p class="no-events">No hay citas en el sistema.</p>
-                    }
-                    @else if (this.calendarService.appointmentsUser) {
-                        
-                    @for (appt of this.calendarService.appointmentsUser.slice(0, 5); track appt.dateTime) {
-                    <div class="event-item">
-                        <div class="event-tt">
-                            <span class="dot" [ngClass]="getStatusColor(appt.status)"></span>
-                            <span class="event-name">({{ appt.reason }})</span>
-                        </div>
-                        <span class="event-time event-time-full">
-                            {{ appt.patientName }} - {{ formatFullDateTime(appt.dateTime) }}
-                        </span>
-                    </div>
-                    }
-                    @if(this.calendarService.appointmentsUser.length > 5){
-                        <p style="text-align: center; font-size: 0.8em; color: #666;">... y más recientes</p>
-                    }
-                    }
-                </div>
-                }
             </div>
         </div>
     </div>
 
     <div class="bd-right">
+
         <div class="header-right">
-            <h1>
-                {{periodSelected!!.startDay}} - {{periodSelected!!.endDay}} {{currentMonthCal?.monthString}}
-            </h1>
+            <button (click)="changeMonth(false)" class="nav-button-main ripple">
+                <i class="arrow left"></i>
+            </button>
+
+            <div class="header-info">
+                <h1>{{currentMonthCal?.monthString}}</h1>
+                <p class="subtitle-week">
+                    {{periodSelected!!.startDay}} - {{periodSelected!!.endDay}}
+                </p>
+            </div>
+
+            <button (click)="changeMonth(true)" class="nav-button-main ripple">
+                <i class="arrow right"></i>
+            </button>
         </div>
 
         @if(currentUser) {
-        <div class="calendar-right">
-            <table>
-                <thead>
-                    <tr class="header">
-                        <th class="th-head th-h"></th>
-                        @for (daySt of this.calendarService.getFullDaysOfWeek(); track $index) {
-                        <th class="th-head" [innerHTML]="daySt"></th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @for ( hour of hours; track $index) {
-                    @let indHour = $index;
+        <div class="calendar-wrapper">
+            <div class="calendar-right">
+                <table>
+                    <thead>
+                        <tr class="header">
+                            <th class="th-head th-time-col sticky-col">Hora</th>
 
-                    <tr>
-                        <th class="hour-cl th-h" [innerHTML]="hour"></th>
-                        
-                        @for (daySt of this.calendarService.getFullDaysOfWeek(); track $index) {
-                        @let indDay = $index;
-                        @let appointment = appointmentsMap[indHour][indDay];
+                            @for (daySt of this.calendarService.getFullDaysOfWeek(); track $index) {
+                            <th class="th-head" [innerHTML]="daySt"></th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for ( hour of hours; track $index) {
+                        @let indHour = $index;
 
-                        <td class="th-body" [ngClass]="appointment ? getStatusColor(appointment.status) : ''">
+                        <tr>
+                            <th class="hour-cl th-h sticky-col" [innerHTML]="hour"></th>
 
-                            @if (appointment) {
+                            @for (daySt of this.calendarService.getFullDaysOfWeek(); track $index) {
+                            @let indDay = $index;
+                            @let appointment = appointmentsMap[indHour][indDay];
+
+                            <td class="th-body" [ngClass]="appointment ? getStatusColor(appointment.status) : ''">
+
+                                @if (appointment) {
                                 <div class="cell-content">
                                     <span class="event-name">
-                                        {{ currentUser?.isAdmin ? appointment.patientName : (appointment.patientName === currentUser?.name ? appointment.patientName : 'Ocupado') }}
+                                        {{ currentUser?.isAdmin ? appointment.patientName : (appointment.patientName ===
+                                        currentUser?.name ? appointment.patientName : 'Ocupado') }}
                                     </span>
-                                    @if(currentUser?.isAdmin){
-                                        <div style="font-size: 0.6em; opacity: 0.8;">{{appointment.reason}}</div>
-                                    }
                                 </div>
-                            }
-                            
-                            @else {
+                                }
+                                @else {
                                 @if (!currentUser?.isAdmin) {
                                 <button class="btn-schedule" (click)="scheduleAppointment(hour, daySt, indDay)">
-                                    <p>Agendar</p>
+                                    <span>+</span>
                                 </button>
                                 }
+                                }
+                            </td>
                             }
-                        </td>
+                        </tr>
                         }
-                    </tr>
-                    }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         </div>
         } @else {
-        <p class="bd-right-message">Por favor, inicie sesión para ver la disponibilidad de horarios.</p>
+        <p class="bd-right-message">Por favor, inicie sesión.</p>
         }
     </div>
 </div>

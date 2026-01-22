@@ -39,7 +39,7 @@ export class Calendar implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // 1. Verificar sesión
+    // Verificar sesión
     if (!this.userService.isLoggedIn()) {
       this.routerViews.navigate(['/']);
       return;

@@ -1,518 +1,353 @@
+/* ================= LAYOUT GLOBAL ================= */
 .body-calendar {
     display: flex;
-    flex-direction: row;
-    padding: 0 1rem 1rem 1rem;
-
-    h1 {
-        font-size: 20px;
-    }
-}
-
-.bd-left,
-.bd-right {
-    display: flex;
-    flex-direction: column;
-
-    gap: 2rem;
-    padding: 2rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    /* Fondo gris claro suave */
+    min-height: 100vh;
+    gap: 1.5rem;
 }
 
 .bd-left {
-    flex: 1 1 0;
+    flex: 0 0 300px;
+    /* Ancho fijo para sidebar */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .bd-right {
-    flex: 3 1 0;
-
-    padding-left: 0;
-    border-left: 1px solid var(--color-border);
-
-
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    /* Importante para bordes redondeados */
     min-width: 0;
+    /* Previene desbordamiento en flex items */
+}
+
+/* ================= HEADER PRINCIPAL (BD-RIGHT) ================= */
+.header-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    /* Estira los hijos a lo alto */
+    background: #fff;
+    border-bottom: 1px solid #eee;
+    height: 70px;
+    /* Altura fija para el header */
+}
+
+.header-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+.header-info h1 {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #333;
+    text-transform: capitalize;
+}
+
+.subtitle-week {
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0;
+}
+
+/* Botones de navegación grandes */
+.nav-button-main {
+    background: transparent;
+    border: none;
+    width: 60px;
+    /* Zona de toque amplia */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-right: 1px solid #f0f0f0;
+}
+
+.nav-button-main:last-child {
+    border-right: none;
+    border-left: 1px solid #f0f0f0;
+}
+
+.nav-button-main:hover {
+    background-color: #f5f5f5;
+}
+
+/* Flechas CSS puras */
+.arrow {
+    border: solid #555;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 4px;
+}
+
+.arrow.right {
+    transform: rotate(-45deg);
+}
+
+.arrow.left {
+    transform: rotate(135deg);
+}
+
+/* ================= CALENDARIO MINI (BD-LEFT) ================= */
+.month-left h1 {
+    font-size: 1.5rem;
+    margin: 0;
+    color: var(--color-btn);
+    text-transform: capitalize;
 }
 
 .calendar-left {
     display: grid;
-
-    grid-template-rows: repeat(6, 1fr);
     grid-template-columns: repeat(7, 1fr);
-
-    gap: 1rem;
-
-}
-
-.days-string,
-.days-number,
-.current-days-number {
-    display: flex;
-    justify-content: center;
-
-    font-size: 15px;
-    cursor: pointer;
-
-}
-
-.current-days-number {
-    background-color: var(--color-btn);
-}
-
-.weekend-color {
-    color: gray;
-}
-
-
-.bd-right .header-right {
-    padding-left: 1rem;
-    gap: 1rem;
-}
-
-.header-right {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-.days-number:hover {
-    background-color: var(--color-btn-hover);
-}
-
-.current-days-number:hover {
-    background-color: var(--color-btn-hover);
-}
-
-.has-appointment {
-    border: none !important;
-    background-color: #e6f3ff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-
-    font-weight: bold;
-    cursor: pointer;
-
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.has-appointment:hover {
-    background-color: #d1e5ff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-
-.calendar-right {
-    overflow: auto;
-    max-height: 110vh;
-
-    color: var(--color-CL);
-
-    table {
-        border-collapse: collapse;
-
-        min-width: 1200px;
-
-        th {
-            width: 150px;
-            height: 60px;
-
-        }
-
-        .th-h {
-            width: 80px;
-        }
-
-        thead .th-head {
-            height: 30px;
-            border-top: 1px solid var(--color-border);
-            border-bottom: 1px solid var(--color-border);
-            font-weight: normal;
-        }
-
-        tbody {
-            .hour-cl {
-                text-align: center;
-                font-weight: normal;
-            }
-
-            .th-body {
-                border: 1px solid var(--color-border);
-
-                span {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-            }
-        }
-    }
+    gap: 5px;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 .days-string {
-    font-size: 14px;
-    font-weight: 100;
-    color: rgba(112, 112, 112, 0.788);
-
-}
-
-
-@media(max-width: 900px) {
-    .bd-left {
-
-        display: none;
-
-    }
-
-    .bd-right {
-        border: none;
-    }
-
-    .th-h {
-        border-left: 1px solid var(--color-border);
-    }
-}
-
-
-.month-left {
-    display: flex;
-    flex-direction: row;
-}
-
-
-.nav-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    /* Hace que los símbolos sean grandes */
-    font-weight: bold;
-    color: var(--color-btn);
-    /* Color primario azul */
-    transition: color 0.2s ease, transform 0.1s ease;
-    padding: 5px 10px;
-}
-
-.nav-button:hover {
-    color: var(--color-btn-hover);
-    /* Azul más oscuro al pasar el ratón */
-    transform: scale(1.1);
-    /* Ligero efecto de crecimiento */
-}
-
-.nav-button:active {
-    transform: scale(0.95);
-    /* Efecto de "clic" */
-}
-
-
-
-
-
-
-/* ----------------------------------- */
-/* Estilos Globales del Contenedor     */
-/* ----------------------------------- */
-.calendar-list-container {
-    padding: 20px;
-    max-width: 400px;
-}
-
-.event-module {
-    margin-bottom: 30px;
-    /* Separación entre Today y Tomorrow */
-}
-
-/* ----------------------------------- */
-/* Estilos de Encabezado (Today/Tomorrow) */
-/* ----------------------------------- */
-.module-header {
-    display: flex;
-    align-items: center;
-    font-size: 24px;
-    font-weight: 500;
-    color: var(--color-text-main);
-    margin: 0 0 15px 0;
-    /* Espacio después del encabezado */
-}
-
-.icon-calendar {
-    font-size: 20px;
-    margin-right: 10px;
-    /* Ajuste para alinear visualmente el emoji/ícono */
-    line-height: 1;
-}
-
-/* ----------------------------------- */
-/* Estilos de Evento Individual        */
-/* ----------------------------------- */
-.event-item {
-    display: flex;
-    align-items: center;
-    padding: 8px 0;
-    line-height: 1.5;
-}
-
-/* 1. El Punto de Color */
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-right: 12px;
-    /* Centrado vertical sutil */
-    flex-shrink: 0;
-}
-
-/* 2. Nombre del Evento (el elemento que debe expandirse) */
-.event-name {
-    /* **Clave Flexbox:** Crece para ocupar todo el espacio disponible */
-    flex-grow: 1;
-    font-size: 16px;
-    color: var(--color-text-main);
-}
-
-.bold {
-    font-weight: bold;
-    /* Para Budget Review y Developer Progress */
-}
-
-/* 3. La Hora (el elemento que se queda a la derecha) */
-.event-time {
-    /* **Clave Flexbox:** No crece ni se encoge, se mantiene fijo a la derecha */
-    flex-shrink: 0;
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--color-time);
-    margin-left: 15px;
-    /* Pequeño espacio para separarlo del texto */
-}
-
-/* ----------------------------------- */
-/* Definición de Colores de Puntos     */
-/* ----------------------------------- */
-.dot.green {
-    background-color: #6bc376;
-}
-
-.dot.green-dark {
-    background-color: #4CAF50;
-}
-
-/* Ajuste de tono para 11:00 */
-.dot.green-light {
-    background-color: #A5D6A7;
-}
-
-/* Ajuste de tono para 12:00 / 13:00 */
-.dot.red {
-    background-color: var(--color-red);
-}
-
-.dot.yellow {
-    background-color: var(--color-yellow);
-}
-
-.dot.purple {
-    background-color: var(--color-purple);
-}
-
-.dot.blue {
-    background-color: var(--color-blue);
-}
-
-
-
-
-
-
-.reminders-left {
-    overflow-y: auto;
-    max-height: 72vh;
-
-    padding: 8px 0px;
-    background-color: #f7f7f7;
-    border-radius: 8px;
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-    min-width: 280px;
-}
-
-.calendar-list-container {
-    display: flex;
-
-    flex-direction: column;
-    gap: 20px;
-}
-
-.event-module {
-    max-width: 25vw;
-
-    overflow-x: auto;
-    background-color: #ffffff;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-}
-
-.module-header {
-    font-size: 1.25rem;
+    font-size: 0.75rem;
+    color: #999;
+    text-align: center;
     font-weight: 600;
-    color: #333;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #eee;
-    margin-bottom: 10px;
 }
 
-.event-item {
+.days-number {
+    text-align: center;
+    cursor: pointer;
+    padding: 8px 0;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.days-number:hover {
+    background-color: #f0f0f0;
+}
+
+.current-days-number,
+.is-selected {
+    background: var(--color-btn, #007bff);
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+    text-align: center;
+    padding: 8px 0;
+}
+
+.appointment-dot {
+    height: 4px;
+    width: 4px;
+    background-color: #ff5252;
+    border-radius: 50%;
+    display: block;
+    margin: 2px auto 0;
+}
+
+/* ================= TABLA PRINCIPAL Y STICKY ================= */
+.calendar-wrapper {
+    flex: 1;
+    overflow: hidden;
+    /* Contiene el scroll */
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    padding: 8px 0;
-    border-bottom: 1px dashed #f0f0f0;
 }
 
-.event-tt {
+.calendar-right {
+    overflow: auto;
+    /* Scroll en ambas direcciones si es necesario */
+    flex: 1;
+    scroll-behavior: smooth;
+}
+
+table {
+    border-collapse: separate;
+    /* Necesario para sticky */
+    border-spacing: 0;
+    width: 100%;
+    min-width: 600px;
+    /* Asegura que la tabla no se aplaste en móvil */
+}
+
+th,
+td {
+    padding: 0.8rem;
+    border-bottom: 1px solid #eee;
+    border-right: 1px solid #eee;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 0.9rem;
+}
+
+/* La columna de la HORA fija */
+.sticky-col {
+    position: -webkit-sticky;
+    position: sticky;
+    left: 0;
+    background-color: white;
+    z-index: 10;
+    border-right: 2px solid #e0e0e0;
+    /* Borde más fuerte para separar */
+    color: #555;
+    font-weight: 600;
+    width: 60px;
+    min-width: 60px;
+}
+
+.th-head {
+    background-color: #fcfcfc;
+    color: #666;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    /* Z-index menor que la columna de hora */
+    border-bottom: 2px solid #e0e0e0;
+}
+
+/* Cruce de cabecera y primera columna (Esquina superior izquierda) */
+.th-head.sticky-col {
+    z-index: 20;
+    /* El más alto para que tape todo al scrollear */
+}
+
+/* ================= BOTÓN AGENDAR ================= */
+.btn-schedule {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    min-height: 40px;
     display: flex;
     align-items: center;
-    padding: 0.5rem 0;
+    justify-content: center;
 }
 
-.event-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+.btn-schedule span {
+    font-size: 1.5rem;
+    color: #ddd;
+    font-weight: 300;
+    transition: color 0.2s;
 }
 
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-right: 10px;
-    flex-shrink: 0;
+.btn-schedule:hover span {
+    color: var(--color-btn, #007bff);
 }
 
-.event-name {
-    flex-grow: 1;
-    font-size: 0.95rem;
-    color: #444;
-    overflow: hidden;
+/* ================= COLORES ESTADO ================= */
+.green {
+    background: #e8f5e9;
+    border-left: 3px solid #66bb6a;
+    color: #2e7d32;
+}
+
+.yellow {
+    background: #fffde7;
+    border-left: 3px solid #ffee58;
+    color: #f9a825;
+}
+
+.blue {
+    background: #e3f2fd;
+    border-left: 3px solid #42a5f5;
+    color: #1565c0;
+}
+
+.red {
+    background: #ffebee;
+    border-left: 3px solid #ef5350;
+    color: #c62828;
+}
+
+.cell-content {
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-align: left;
     white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.event-time {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #777;
-    flex-shrink: 0;
+/* ================= RESPONSIVE ================= */
+
+/* Tablet y Móvil */
+@media (max-width: 1024px) {
+    .body-calendar {
+        flex-direction: column;
+        padding: 0;
+        /* Aprovechar todo el ancho */
+        gap: 0;
+    }
+
+    .bd-left {
+        display: none;
+        /* Ocultamos el sidebar completamente */
+    }
+
+    .bd-right {
+        border-radius: 0;
+        /* Quitar bordes redondeados en móvil */
+        height: 100vh;
+        box-shadow: none;
+    }
+
+    .header-right {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        /* Que quede por encima de la tabla */
+    }
+
+    /* En móvil, la tabla debe tener un min-width para forzar scroll horizontal */
+    table {
+        min-width: 120%;
+        /* Forzar ancho para que se pueda hacer scroll */
+    }
+
+    /* Ajustar tamaño de fuente */
+    .th-head,
+    .hour-cl,
+    td {
+        padding: 0.5rem;
+        font-size: 0.8rem;
+    }
 }
 
-.bold {
-    font-weight: 700;
+/* ================= ESTILO SCROLLBAR ================= */
+
+/* Hace la barra más fina y sutil */
+.calendar-right::-webkit-scrollbar {
+    height: 6px;
+    /* Altura para scroll horizontal */
+    width: 6px;
+    /* Ancho para scroll vertical */
 }
 
-.no-events {
-    color: #888;
-    font-style: italic;
-    padding: 10px 0 5px;
+.calendar-right::-webkit-scrollbar-track {
+    background: transparent;
 }
 
-/* --- Status Colors --- */
-
-.green {
-    background-color: #28a745;
+.calendar-right::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 10px;
 }
 
-/* Confirmed */
-.yellow {
-    background-color: #ffc107;
-}
-
-/* Scheduled */
-.blue {
-    background-color: #007bff;
-}
-
-/* Completed */
-.red {
-    background-color: #dc3545;
-}
-
-/* Canceled */
-.gray {
-    background-color: #6c757d;
-}
-
-/* Default/Error */
-/* Base: Diseño Minimalista con Borde */
-.btn-schedule {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 30px;
-    width: 100%;
-
-    border-radius: 5px;
-    font-size: 13px;
-    font-weight: 500;
-
-    /* Fondo transparente y borde con color de acento */
-    background-color: transparent;
-    border: 1px solid var(--color-btn);
-    /* Borde de color */
-    color: var(--color-btn);
-    /* Texto con color de acento */
-
-    transition: all 0.3s ease-in-out;
-}
-
-/* Efecto Hover */
-.btn-schedule:hover {
-    /* Rellena el botón con el color de acento al pasar el ratón */
-    background-color: var(--color-btn);
-    color: white;
-    /* Texto blanco sobre fondo de color */
-    transform: scale(1.02);
-    /* Escala ligeramente para llamar la atención */
-    cursor: pointer;
-}
-
-/* Manejo de Opacidad en la Tabla */
-.th-body .btn-schedule {
-    opacity: 0;
-    transition: opacity 0.2s;
-}
-
-.th-body:hover .btn-schedule {
-    /* La opacidad total revela el botón con su borde de color */
-    opacity: 1;
-}
-
-
-
-
-/* Confirmed → Verde con mejor contraste */
-.th-body.green {
-    background-color: #66BB6A; /* Verde claro */
-    color: #1B5E20; /* Verde oscuro (se mantiene el color de texto) */
-}
-
-/* Scheduled → Amarillo con mejor contraste para texto oscuro */
-.th-body.yellow {
-    background-color: #FFEE58; /* Amarillo más intenso */
-    color: #333333; /* Texto gris muy oscuro */
-}
-
-/* Completed → Azul con mejor contraste */
-.th-body.blue {
-    background-color: #64B5F6; /* Azul claro medio */
-    color: #0D47A1; /* Azul muy oscuro (se mantiene el color de texto) */
-}
-
-/* Canceled → Rojo suave con contraste mucho mejor */
-.th-body.red {
-    background-color: #E57373; /* Rojo claro para fondo */
-    color: #4A0000; /* Rojo muy oscuro para texto */
-}
-
-/* Unknown → Gris medio con texto más oscuro */
-.th-body.gray {
-    background-color: #BDBDBD; /* Gris medio */
-    color: #212121; /* Texto gris muy oscuro */
+.calendar-right::-webkit-scrollbar-thumb:hover {
+    background: #bdbdbd;
 }
