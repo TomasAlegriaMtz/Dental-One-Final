@@ -1,8 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component } from '@angular/core';
 
 @Component({
   selector: 'app-help',
-  imports: [],
+  imports: [
+    CommonModule
+  ],
   templateUrl: './help.html',
   styleUrl: './help.css'
 })
