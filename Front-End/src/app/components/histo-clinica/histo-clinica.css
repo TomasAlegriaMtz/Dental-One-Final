@@ -106,6 +106,8 @@
 .general-label-input{
     display: flex;
     flex-direction: column;
+    width: 100%; 
+    margin-bottom: 1em;
 }
 
 .lineStyle{
@@ -115,6 +117,7 @@
     margin-left: 2em;
     margin-right: 2em;
     justify-content: center;
+    flex-wrap: wrap;
     input{
         border: none;
         appearance: none;
@@ -128,7 +131,23 @@
         outline: none;
         font-size: 14px;
     }
-    /*Primer Diseno*/
+}
+
+.lineStyleInput{
+  input{
+        border: none;
+        appearance: none;
+        -webkit-appearance: none;
+        -ms-progress-appearance: none;
+        -moz-appearance: none;
+        background: #f2f2f2;
+        padding: 12px;
+        border-radius: 3px;
+        width: 250px;
+        outline: none;
+        font-size: 14px;
+    }
+  /*Primer Diseno*/
     .custom-field{
         position: relative;
         font-size: 14px;
@@ -583,4 +602,85 @@
     background-color: #f7e0e5; /* Un tono un poco más fuerte */
     color: #a3002f;
     border-color: #e07f97;
+}
+.checkbox-group{
+    display: flex; flex-wrap: wrap; gap: 1em 2em; width: 100%; margin-bottom: 1em; justify-content: center;
+}
+
+/*Diseno responsive para dispositivos moviles*/
+@media(max-width: 799px){
+  .formulario-container{ 
+    max-width: 799px;
+  }
+  .progressForm{
+    flex-direction: column;
+    hr{
+      display: none;
+    }
+    p{
+      display: none;
+
+    }
+    .currentForm{
+      display: initial;
+    }
+  }
+  .formulario-card{
+    max-width: 70%;
+
+  }
+  .aviso-formulario{
+    width: 60%;
+    text-align: center;
+
+  }
+  .lineStyle{
+    flex-direction: column;
+    align-items: center;
+    
+  }
+
+  .lineStyleInput{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  
+
+  .select{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    p{
+      color: var(--blue);
+    }
+  }
+  .radio-inputs{
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 70%;
+  }
+
+  .general-label-input{
+    max-width: 70%;
+    text-align: center;
+    align-items: center;
+    h3{
+      max-width: 60%;
+      text-align: center;
+      margin: 0 auto;
+    }
+  }
+  .checkbox-group{
+    max-width: 40%;
+    flex-direction: column;
+    align-items: left;
+    
+  }
+  .select p{
+    width: 100%;
+    text-align: center;
+  }
+  
 }

@@ -534,3 +534,58 @@
     color: #a3002f;
     border-color: #e07f97;
 }
+
+
+/*Diseno responsive para celulares*/
+@media(max-width: 799px){
+  .formulario-container{
+    max-width: 799px;
+  }
+  .progressForm{
+    flex-direction: column;
+    hr{
+      display: none;
+    }
+    p{
+      display: none;
+    }
+    .currentForm{
+      display: initial;
+    }
+  }
+
+  .formulario-card{
+    max-width: 70% ;
+  }
+  .aviso-formulario{
+    width: 60%;
+    text-align: center;
+  }
+  .lineStyle{
+    flex-direction: column;
+  }
+  .select{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p{
+      color: var(--blue);
+    }
+  }
+  .radio-inputsG{
+    flex-direction: column;
+    max-width: 70%;
+    margin: 0 auto;
+  }
+  .radio-inputs{
+    flex-direction: column;
+    max-width: 70%;
+    margin: 0 auto;
+  }
+  .radio-inputsEC{
+    flex-direction: column;
+    max-width: 70%;
+    margin: 0 auto;
+  }
+}

@@ -29,13 +29,12 @@
 
                 <hr style="width: 90%; margin: 1em 0;">
 
-                <div class="lineStyle" style="flex-wrap: wrap;">
-                    <div class="general-label-input" style="width: 100%; margin-bottom: 1em;">
+                <div class="lineStyle" >
+                    <div class="general-label-input">
                         <h3>Padecimientos que ha tenido o tiene (Selección Múltiple):</h3>
                     </div>
 
-                    <div class="checkbox-group"
-                        style="display: flex; flex-wrap: wrap; gap: 1em 2em; width: 100%; margin-bottom: 1em; justify-content: center;">
+                    <div class="checkbox-group">
                         @for(padecimiento of padecimientos; track padecimiento.value; let i = $index){
                         <div class="checkbox-container">
                             <input type="checkbox" formControlName="padecimiento" [id]="'padecimiento-' + i" [value]="padecimiento.value"><label
@@ -212,7 +211,7 @@
 
                 <hr style="width: 90%; margin: 1em 0;">
 
-                <div class="lineStyle" style="flex-wrap: wrap;">
+                <div class="lineStyleInput">
 
                     <div class="general-label-input">
                         <label class="custom-field one">
@@ -256,9 +255,9 @@
                         </label>
                     </div>
 
-                    <div class="general-label-input" style="width: 100%;">
-                        <label class="custom-field one" style="width: 740px;">
-                            <input type="text" formControlName="enfermedadNoMencionada" required style="width: 420px;">
+                    <div class="general-label-input" >
+                        <label class="custom-field one">
+                            <input type="text" formControlName="enfermedadNoMencionada" required>
                             <span class="placeholder">¿Alguna otra enfermedad no mencionada? (Especifique)</span>
                         </label>
                     </div>
@@ -267,17 +266,17 @@
 
                 <hr style="width: 90%; margin: 1em 0;">
 
-                <div class="lineStyle" style="flex-wrap: wrap;">
-                    <h3 style="width: 100%; margin-bottom: 1em;">Sección Exclusiva para Mujeres:</h3>
-                    <div class="general-label-input" style="align-self:self-end; margin-top: 1em;">
+                <div class="lineStyleInput">
+                    <h3 >Sección Exclusiva para Mujeres:</h3>
+                    <div class="general-label-input">
                         <label class="custom-field one">
                             <input type="text" formControlName="embarazo" required>
                             <span class="placeholder">Embarazo (Meses de gestación, si aplica)</span>
                         </label>
                     </div>
-                    <div class="select" style="gap: 0;">
-                        <p style="padding: 0;">Problema Hormonal:</p>
-                        <div class="radio-inputs" style="width: 400px; padding: 0;">
+                    <div class="select">
+                        <p>Problema Hormonal:</p>
+                        <div class="radio-inputs">
                             @for(bool of booleano; track bool.value; let i = $index){
                             <label [for]="'problemaHormonal-' + i" class="radio">
                                 <input type="radio" formControlName="problemaHormonal" [id]="'problemaHormonal-' + i"

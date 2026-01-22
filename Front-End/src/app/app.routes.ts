@@ -28,8 +28,8 @@ export const routes: Routes = [
     {path: 'log-in', component: LogIn},
     {path: 'register', component: Register},
     {path: 'calendar', component: Calendar, canActivate: [authGuard]},
-    {path: 'formulario', component: FormularioInicial, canActivate: [authGuard]},
-    {path: 'histo', component: HistoClinica, canActivate : [authGuard]},
+    {path: 'formulario', component: FormularioInicial,canActivate: [authGuard]}, //canActivate: [authGuard]},
+    {path: 'histo', component: HistoClinica, canActivate: [authGuard]},
     {path: 'scheduling', component: Scheduling, canActivate: [authGuard]},
     {path: 'paciente', component: Paciente, canActivate: [authGuard]}
 ];
