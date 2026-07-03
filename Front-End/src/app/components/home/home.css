@@ -17,15 +17,14 @@ header {
   width: 560px;
   max-width: 90%;
   height: auto;
-  border-radius: 20px;
   object-fit: cover;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
 }
 
 .header-phrase {
-  font-size: 120px;
-  font-family: "Crimson Text", serif;
-  font-weight: 500;
+  /* Michroma es muy ancha: 64px aquí ocupa lo que 120px en la fuente anterior */
+  font-size: 64px;
+  font-family: var(--font-logo);
+  font-weight: 400;
   font-style: normal;
   margin: 1.2rem auto 1.8rem auto;
   text-align: center;
@@ -371,7 +370,7 @@ hr {
 @media (max-width: 799px) {
 
   .header-phrase {
-    font-size: 52px;
+    font-size: 28px;
     width: 90%;
     text-align: center;
   }

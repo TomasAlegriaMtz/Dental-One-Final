@@ -1,5 +1,6 @@
 import { Component, effect, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { HttpClient } from '@angular/common/http';
@@ -27,10 +28,8 @@ interface TreatmentOption {
 })
 export class Scheduling implements OnInit {
 
-  //private urlScheduling = 'https://dental-one-final.onrender.com/api/register/appointment';
-  private urlScheduling = "http://localhost:3000/api/register/appointment"
-  //private profileUrl = 'https://dental-one-final.onrender.com/api/user/profile';
-  private profileUrl = "http://localhost:3000/api/user/profile"
+  private urlScheduling = `${environment.apiUrl}/api/register/appointment`
+  private profileUrl = `${environment.apiUrl}/api/user/profile`
 
   // Gate de pago según el tipo de paciente
   patientType: string | null = null;

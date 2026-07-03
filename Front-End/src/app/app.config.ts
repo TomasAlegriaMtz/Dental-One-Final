@@ -11,7 +11,12 @@ import { environment } from '../environments/environment';
 // sin tráfico y tarda hasta ~1 min en despertar. Llamamos /health al arrancar
 // la app para que despierte en segundo plano mientras el usuario navega.
 // No bloquea el arranque ni muestra errores si falla.
+// Solo en producción: en desarrollo el backend local no siempre está corriendo
+// y los reintentos ensucian la consola con errores de conexión.
 function warmUpBackend(): void {
+  if (!environment.production) {
+    return;
+  }
   const http = inject(HttpClient);
   http.get(`${environment.apiUrl}/health`)
     .pipe(

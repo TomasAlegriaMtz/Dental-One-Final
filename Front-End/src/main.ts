@@ -1,5 +1,3 @@
-import 'zone.js'; // 🚨 Volvemos a la importación estándar
-
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors } from '@angular/common/http'; 
 import { App } from './app/app';

@@ -15,6 +15,15 @@ if (!jwtSecret) {
     throw new Error('Falta la variable de entorno JWT_SECRET. Configúrala en tu archivo .env o en el panel de tu hosting.');
 }
 
+// URLs base para los enlaces que van dentro de los correos.
+// BACKEND_URL: la propia URL pública de este servidor (para el link de
+// verificar correo). Render la expone solo en RENDER_EXTERNAL_URL, así que
+// normalmente no hay que configurar nada.
+// FRONTEND_URL: el dominio del sitio (para links de login y reset password);
+// en producción configúrala en el panel de Render.
+const BACKEND_URL = process.env.BACKEND_URL || process.env.RENDER_EXTERNAL_URL || 'http://localhost:3000';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:4200';
+
 const register = async (req, res) => {
     try {
         const { nombre, apellidos, email, password } = req.body;
@@ -38,7 +47,7 @@ const register = async (req, res) => {
         await user.save();
 
         // Enviar correo de verificación
-        const verificationUrl = `http://localhost:3000/api/verify-email/${verificationToken}`;
+        const verificationUrl = `${BACKEND_URL}/api/verify-email/${verificationToken}`;
 
         await enviarCorreoSMTP({
             to: email,
@@ -253,7 +262,7 @@ const verifyEmail = async (req, res) => {
                 <h1 style="color: green;">¡Correo verificado con éxito!</h1>
                 <p>Ya puedes cerrar esta ventana e iniciar sesión en tu cuenta de Dental One.</p>
                 <br>
-                <a href="http://localhost:4200/log-in" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Ir a Iniciar Sesión</a>
+                <a href="${FRONTEND_URL}/log-in" style="padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Ir a Iniciar Sesión</a>
             </div>
         `);
     } catch (error) {
@@ -281,7 +290,7 @@ const resendVerificationEmail = async (req, res) => {
         await user.save();
 
         // Enviar el correo de verificación con template unificado
-        const verificationUrl = `http://localhost:3000/api/verify-email/${verificationToken}`;
+        const verificationUrl = `${BACKEND_URL}/api/verify-email/${verificationToken}`;
 
         await enviarCorreoSMTP({
             to: email,
@@ -312,7 +321,7 @@ const forgotPassword = async (req, res) => {
         user.resetPasswordExpires = Date.now() + 3600000; // 1 hora
         await user.save();
 
-        const resetUrl = `http://localhost:4200/reset-password/${resetToken}`;
+        const resetUrl = `${FRONTEND_URL}/reset-password/${resetToken}`;
 
         await enviarCorreoSMTP({
             to: email,

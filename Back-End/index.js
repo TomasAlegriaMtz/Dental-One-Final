@@ -19,10 +19,14 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // 2. Configuración de Middlewares Globales
-// CORS: en producción se restringe al dominio indicado en CORS_ORIGIN.
+// CORS: en producción se restringe a los dominios indicados en CORS_ORIGIN
+// (acepta varios separados por coma, ej: "https://midominio.com,https://www.midominio.com").
 // Si CORS_ORIGIN no está definido, se permite todo (útil en desarrollo).
-const corsOrigin = process.env.CORS_ORIGIN;
-app.use(cors(corsOrigin ? { origin: corsOrigin } : undefined));
+const corsOrigins = (process.env.CORS_ORIGIN || '')
+    .split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+app.use(cors(corsOrigins.length ? { origin: corsOrigins } : undefined));
 app.use(express.json());
 
 // Endpoint ligero de salud (para monitores de uptime tipo UptimeRobot que

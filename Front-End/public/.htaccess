@@ -1,0 +1,10 @@
+# Redirige todas las rutas al index.html para que el enrutador de Angular
+# las maneje (sin esto, recargar la página en /citas, /log-in, etc. da 404).
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

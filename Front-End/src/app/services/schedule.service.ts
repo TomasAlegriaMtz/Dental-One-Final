@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { UserService } from './user.service';
 
@@ -7,7 +8,7 @@ import { UserService } from './user.service';
     providedIn: 'root'
 })
 export class ScheduleService {
-    private urapi: string = 'http://localhost:3000';
+    private urapi: string = environment.apiUrl;
 
     constructor(
         private http: HttpClient,

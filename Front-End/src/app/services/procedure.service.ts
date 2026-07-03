@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { Procedure, PacienteOption } from '../models/procedure';
 
@@ -7,9 +8,8 @@ import { Procedure, PacienteOption } from '../models/procedure';
   providedIn: 'root'
 })
 export class ProcedureService {
-  // URL base del backend (descomenta la de producción al desplegar)
-  //private apiUrl = 'https://dental-one-final.onrender.com/api';
-  private apiUrl = 'http://localhost:3000/api';
+  // URL base del backend (viene de environments: localhost en dev, Render en prod)
+  private apiUrl = `${environment.apiUrl}/api`;
 
   constructor(private http: HttpClient) {}
 

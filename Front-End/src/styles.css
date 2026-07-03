@@ -89,6 +89,16 @@
     --text: "Helvetica Neue", sans-serif;
     --other: "Franklin Gothic", sans-serif;
 
+    /* Tipografías del logo: Michroma ~ "DENTAL ONE", Saira Condensed ~ "Soluciones Dentales" */
+    --font-logo: 'Michroma', 'Arial Black', sans-serif;
+    --font-subtitle: 'Saira Condensed', 'Arial Narrow', sans-serif;
+
+}
+
+/* Subtítulos de todo el sitio con la tipografía de "Soluciones Dentales" */
+h1, h2, h3 {
+    font-family: var(--font-subtitle);
+    letter-spacing: 0.5px;
 }
 
 body {

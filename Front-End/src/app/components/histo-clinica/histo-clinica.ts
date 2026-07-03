@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core'; // Agregue OnInit
+import { environment } from '../../../environments/environment';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -15,8 +16,7 @@ import { UserService } from '../../services/user.service'; // Asegúrate de impo
 })
 export class HistoClinica implements OnInit {
   histoForm!: FormGroup;
-  //private histoURI = 'https://dental-one-final.onrender.com/api/register/histo';
-  private histoURI = 'http://localhost:3000/api/register/histo';
+  private histoURI = `${environment.apiUrl}/api/register/histo`;
 
   constructor(
     private formBuilder: FormBuilder,
